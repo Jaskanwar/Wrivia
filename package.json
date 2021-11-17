@@ -1,0 +1,19 @@
+{
+  "name": "wrivia",
+  "version": "1.0.0",
+  "description": "Mobile Trivia Game",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jaskanwar/Wrivia.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Jaskanwar/Wrivia/issues"
+  },
+  "homepage": "https://github.com/Jaskanwar/Wrivia#readme"
+}
