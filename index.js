@@ -15,4 +15,9 @@ connectMongo();
 app.use(mongoSanitize());
 app.use(hpp());
 
+app.use('/api/lobby', require('./Routes/lobby'));
+app.get("/", (req, res) => {
+    res.send("Hello World!");
+  });
+
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
