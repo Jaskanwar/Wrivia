@@ -23,6 +23,7 @@
     "express-mongo-sanitize": "^2.1.0",
     "hpp": "^0.2.3",
     "mongodb": "^4.2.0",
-    "mongoose": "^6.0.13"
+    "mongoose": "^6.0.13",
+    "pusher": "^5.0.0"
   }
 }
