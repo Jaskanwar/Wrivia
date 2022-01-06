@@ -4,7 +4,13 @@ const gameDataSchema = new mongoose.Schema({
     lobbyId: {
         type:String,
         required: true
-    }
+    },
+    player: [{
+        name:{
+            type:String,
+            required:true
+        }
+    }]
 });
   
   const gameData = mongoose.model("Wrivia_Games", gameDataSchema);

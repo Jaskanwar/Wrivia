@@ -13,8 +13,8 @@
     let arr =[];
     var channel = pusher.subscribe('Wrivia');
     channel.bind('test', function(data) {
-      arr.push(data.message)
-      document.getElementById("myText").innerHTML = arr;
+      console.log(data.lobby)
+      document.getElementById("myText").innerHTML = data.lobby.lobbyId;
       //alert(JSON.stringify(data));
     });
   </script>

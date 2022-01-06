@@ -9,10 +9,24 @@ router.post('/create', async(req, res)=>{
     try {
         let lobbyId = Crypto.randomBytes(6).toString('hex').slice(0, 6);
         const lobby = await gameData.create({lobbyId: lobbyId});
-        pusher.trigger('Wrivia', 'test',{
-            message: "hello world"
-        });
         res.status(200).send({"lobbyId": lobbyId});
+    } catch (error) {
+        console.log(error);
+        res.status(500).send("Server error");
+    }
+})
+
+router.post('/join', async(req, res)=>{
+    const { id, name } = req.body
+    const where = {lobbyId: id}
+    try {
+        const lobby = await gameData.findOneAndUpdate(where, {player: {name: name}},{
+            new: true
+        });
+        pusher.trigger('Wrivia', 'test',{
+            lobby
+        });
+        res.status(200).send({"lobby": lobby});
     } catch (error) {
         console.log(error);
         res.status(500).send("Server error");
