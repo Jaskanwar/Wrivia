@@ -19,6 +19,11 @@ router.post("/join", async (req, res) => {
   const { id, name } = req.body;
   const where = { lobbyId: id };
   try {
+    const player = await gameData.findOne({ lobbyId: id, "player.name": name }, { "player.$": 1 });
+    if(player){
+        console.log("Player alreadt exists");
+        return res.status(500).send("Player name exists");
+    }
     const lobby = await gameData.findOneAndUpdate(
       where,
       { $push: { player: { name: name } } },

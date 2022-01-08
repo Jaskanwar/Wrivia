@@ -1,9 +1,10 @@
 const Pusher = require("pusher");
+const dotenv = require('dotenv');
 
 const pusher = new Pusher({
-  appId: "1327739",
-  key: "218cec42316a7262014e",
-  secret: "f90e03e61276a22cb68f",
+  appId: process.env.PUSHER_APP_ID,
+  key: process.env.PUSHER_KEY,
+  secret: process.env.PUSHER_SECRET,
   cluster: "us2",
   useTLS: true,
 });
