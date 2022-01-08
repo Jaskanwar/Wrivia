@@ -8,7 +8,16 @@ const gameDataSchema = new mongoose.Schema({
     player: [{
         name:{
             type:String,
-            required:true
+            required:true,
+            unique: true
+        },
+        question:{
+            type:String,
+            default: null
+        },
+        score:{
+            type: Number,
+            default: 0
         }
     }]
 });

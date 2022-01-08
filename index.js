@@ -17,6 +17,7 @@ app.use(mongoSanitize());
 app.use(hpp());
 
 app.use('/api/lobby', require('./Routes/lobby'));
+app.use('/api/question', require('./Routes/question'));
 app.get("/", (req, res) => {
     res.send("Hello World!");
   });
