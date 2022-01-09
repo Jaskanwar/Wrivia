@@ -1,12 +1,17 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StatusBar } from "expo-status-bar";
+import React from "react";
+import Title from "./screens/Title";
+import Lobby from "./screens/Lobby";
+import NewGame from "./screens/NewGame";
+import JoinGame from "./screens/JoinGame";
+import Loading from "./screens/Loading";
+import Name from "./screens/Name";
+import { StyleSheet, Text, View } from "react-native";
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+      <Name />
     </View>
   );
 }
@@ -14,8 +19,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#fff",
+    alignSelf: "stretch",
   },
 });
