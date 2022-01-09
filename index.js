@@ -8,14 +8,17 @@ const connectMongo = require("./config/config");
 const PORT = process.env.PORT || 5000;
 
 const app = express();
-app.use(cors({ origin: 'http://localhost:3000' }));
+app.use(cors());
 
 connectMongo();
+app.use(express.json());
 
 app.use(mongoSanitize());
 app.use(hpp());
 
 app.use('/api/lobby', require('./Routes/lobby'));
+app.use('/api/question', require('./Routes/question'));
+app.use('/api/score', require('./Routes/score'));
 app.get("/", (req, res) => {
     res.send("Hello World!");
   });
