@@ -7,11 +7,20 @@ import JoinGame from "./screens/JoinGame";
 import Loading from "./screens/Loading";
 import Name from "./screens/Name";
 import { StyleSheet, Text, View } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+const HomeStack = createNativeStackNavigator();
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <Name />
+      <NavigationContainer>
+        <HomeStack.Navigator>
+          <HomeStack.Screen name="EnterName" component={Name} />
+          <HomeStack.Screen name="Lobby" component={Lobby} />
+        </HomeStack.Navigator>
+      </NavigationContainer>
     </View>
   );
 }
