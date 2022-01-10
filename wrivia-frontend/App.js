@@ -1,5 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import React from "react";
+import StoreProvider from "./utils/store"
 import Title from "./screens/Title";
 import Lobby from "./screens/Lobby";
 import NewGame from "./screens/NewGame";
@@ -16,9 +17,11 @@ const HomeStack = createNativeStackNavigator();
 export default function App() {
   return (
     <NavigationContainer>
-      <View style={styles.container}>
-        <Navigation />
-      </View>
+      <StoreProvider>
+        <View style={styles.container}>
+          <Navigation />
+        </View>
+      </StoreProvider>
     </NavigationContainer>
   );
 }
