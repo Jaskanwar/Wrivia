@@ -2,8 +2,17 @@ import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
 import { Button } from "react-native-elements";
+const axios = require('axios');
 
 export default function Lobby() {
+  const baseUrl = "https://wrivia-backend.herokuapp.com/"
+  function createGame(){
+    axios.post(baseUrl+'api/lobby/create').then((res)=>{
+      console.log(res.data);
+    }).catch((err)=>{
+      console.log(err);
+    });
+  }
   return (
     <View style={styles.container}>
       <Text
@@ -25,6 +34,7 @@ export default function Lobby() {
         buttonStyle={{
           backgroundColor: "#FF4F63",
         }}
+        onPress={()=> createGame()}
       />
       <Button
         title={"Join An Existing Game"}

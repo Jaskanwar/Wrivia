@@ -1,5 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import React from "react";
+import StoreProvider from "./utils/store"
 import Title from "./screens/Title";
 import Lobby from "./screens/Lobby";
 import NewGame from "./screens/NewGame";
@@ -10,9 +11,11 @@ import { StyleSheet, Text, View } from "react-native";
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Name />
-    </View>
+    <StoreProvider>
+      <View style={styles.container}>
+        <Lobby />
+      </View>
+    </StoreProvider>
   );
 }
 
