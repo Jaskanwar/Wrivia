@@ -2,8 +2,11 @@ import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
 import { Button } from "react-native-elements";
+import * as Clipboard from 'expo-clipboard';
+import { StoreContext } from "../utils/store"
 
 export default function NewGame() {
+  const {lobbyId: [lobbyID, setLobbyId]} = React.useContext(StoreContext);
   return (
     <View style={styles.container}>
       <Text
@@ -22,7 +25,7 @@ export default function NewGame() {
           fontWeight: "600",
         }}
       >
-        7685949
+        {lobbyID}
       </Text>
       <Button
         title={"Copy code"}
@@ -34,6 +37,7 @@ export default function NewGame() {
         buttonStyle={{
           backgroundColor: "#49B5FF",
         }}
+        onPress={()=> Clipboard.setString(lobbyID)}
       />
       <Text
         style={{

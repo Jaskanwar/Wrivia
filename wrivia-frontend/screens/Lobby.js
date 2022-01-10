@@ -5,12 +5,13 @@ import { Button } from "react-native-elements";
 import { StoreContext } from "../utils/store"
 const axios = require('axios');
 
-export default function Lobby() {
+export default function Lobby({navigation}) {
   const baseUrl = "https://wrivia-backend.herokuapp.com/";
   const {lobbyId: [lobbyID, setLobbyId]} = React.useContext(StoreContext);
   function createGame(){
     axios.post(baseUrl+'api/lobby/create').then((res)=>{
       setLobbyId(res.data.lobbyId)
+      navigation.navigate("EnterName")
     }).catch((err)=>{
       console.log(err);
     });
@@ -48,6 +49,7 @@ export default function Lobby() {
         buttonStyle={{
           backgroundColor: "#49B5FF",
         }}
+        onPress={()=> navigation.navigate("JoinGame")}
       />
     </View>
   );
