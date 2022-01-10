@@ -2,13 +2,15 @@ import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
 import { Button } from "react-native-elements";
+import { StoreContext } from "../utils/store"
 const axios = require('axios');
 
 export default function Lobby() {
-  const baseUrl = "https://wrivia-backend.herokuapp.com/"
+  const baseUrl = "https://wrivia-backend.herokuapp.com/";
+  const {lobbyId: [lobbyID, setLobbyId]} = React.useContext(StoreContext);
   function createGame(){
     axios.post(baseUrl+'api/lobby/create').then((res)=>{
-      console.log(res.data);
+      setLobbyId(res.data.lobbyId)
     }).catch((err)=>{
       console.log(err);
     });
