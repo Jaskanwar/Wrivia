@@ -13,6 +13,7 @@ export default function NewGame() {
   const {
     playerList: [playerList, setPlayerList],
   } = React.useContext(StoreContext);
+  const {isHost: [isHost, setIsHost]} = React.useContext(StoreContext);
   const pusher = new Pusher("62107c41ec95d815dfa2", {
     cluster: "us2",
   });
@@ -55,6 +56,21 @@ export default function NewGame() {
         }}
         onPress={() => Clipboard.setString(lobbyID)}
       />
+      {isHost && (
+        <Button
+        title={"Start Game"}
+        containerStyle={{
+          width: 200,
+          marginHorizontal: 50,
+          marginVertical: 10,
+        }}
+        buttonStyle={{
+          backgroundColor: "#49B5FF",
+        }}
+        onPress={() => Clipboard.setString(lobbyID)}
+      />
+      )}
+      
       <Text
         style={{
           color: "white",
