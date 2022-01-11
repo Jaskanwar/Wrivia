@@ -8,8 +8,10 @@ const axios = require('axios');
 export default function Lobby({navigation}) {
   const baseUrl = "https://wrivia-backend.herokuapp.com/";
   const {lobbyId: [lobbyID, setLobbyId]} = React.useContext(StoreContext);
+  const {isHost: [isHost, setIsHost]} = React.useContext(StoreContext);
   function createGame(){
     axios.post(baseUrl+'api/lobby/create').then((res)=>{
+      setIsHost(true)
       setLobbyId(res.data.lobbyId)
       navigation.navigate("EnterName")
     }).catch((err)=>{

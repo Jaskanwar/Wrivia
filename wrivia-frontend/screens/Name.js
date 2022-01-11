@@ -16,11 +16,12 @@ export default function Name({ navigation }) {
   const {
     playerList: [playerList, setPlayerList],
   } = React.useContext(StoreContext);
+  const {isHost: [isHost, setIsHost]} = React.useContext(StoreContext);
   const baseUrl = "https://wrivia-backend.herokuapp.com/";
 
   function joinLobby() {
     axios
-      .post(baseUrl + "api/lobby/join", { id: lobbyID, name: name })
+      .post(baseUrl + "api/lobby/join", { id: lobbyID, name: name, host: isHost })
       .then((res) => {
         let newPlayerList = res.data.lobby.player.map(x => (
           x.name

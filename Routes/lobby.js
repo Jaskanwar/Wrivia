@@ -16,7 +16,7 @@ router.post("/create", async (req, res) => {
 });
 
 router.post("/join", async (req, res) => {
-  const { id, name } = req.body;
+  const { id, name, host } = req.body;
   const where = { lobbyId: id };
   try {
     const player = await gameData.findOne({ lobbyId: id, "player.name": name }, { "player.$": 1 });
@@ -26,7 +26,7 @@ router.post("/join", async (req, res) => {
     }
     const lobby = await gameData.findOneAndUpdate(
       where,
-      { $push: { player: { name: name } } },
+      { $push: { player: { name: name, host: host } } },
       {
         new: true,
       }

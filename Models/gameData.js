@@ -16,6 +16,10 @@ const gameDataSchema = new mongoose.Schema({
         score:{
             type: Number,
             default: 0
+        },
+        host:{
+            type: Boolean,
+            default: false
         }
     }]
 });
