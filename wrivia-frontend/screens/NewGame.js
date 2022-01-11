@@ -2,25 +2,27 @@ import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { StyleSheet, Text, View, Image, FlatList } from "react-native";
 import { Button } from "react-native-elements";
-import * as Clipboard from 'expo-clipboard';
-import { StoreContext } from "../utils/store"
-const Pusher = require('pusher-js');
+import * as Clipboard from "expo-clipboard";
+import { StoreContext } from "../utils/store";
+const Pusher = require("pusher-js");
 
 export default function NewGame() {
-  const {lobbyId: [lobbyID, setLobbyId]} = React.useContext(StoreContext);
+  const {
+    lobbyId: [lobbyID, setLobbyId],
+  } = React.useContext(StoreContext);
+  const {
+    playerList: [playerList, setPlayerList],
+  } = React.useContext(StoreContext);
   const pusher = new Pusher("62107c41ec95d815dfa2", {
-    cluster: 'us2',
+    cluster: "us2",
   });
-  var channel = pusher.subscribe('Wrivia');
-  var newArray = []
-  var playerList = []
-  channel.bind(lobbyID, function(data){
-    newArray = data.lobby.player
-    playerList = newArray.map(x => (
-      x.name
-    ))
-  })
-  
+  var channel = pusher.subscribe("Wrivia");
+  let newPlayerList = [];
+  channel.bind(lobbyID, function (data) {
+    newPlayerList = data.lobby.player.map((x) => x.name);
+    setPlayerList(newPlayerList);
+  });
+
   return (
     <View style={styles.container}>
       <Text
@@ -51,27 +53,28 @@ export default function NewGame() {
         buttonStyle={{
           backgroundColor: "#49B5FF",
         }}
-        onPress={()=> Clipboard.setString(lobbyID)}
+        onPress={() => Clipboard.setString(lobbyID)}
       />
       <Text
         style={{
           color: "white",
-          fontSize: 20,
+          fontSize: 25,
           fontWeight: "600",
         }}
       >
         Current Players
       </Text>
-      <Text id="currentPlayers"
-        style={{
-          color: "white",
-          fontSize: 15,
-        }}
-      >
-      </Text>
-      { playerList.map((item, key)=>(
-         <Text key={key}> { item } </Text>)
-      )}
+      {playerList.map((item, key) => (
+        <Text
+          style={{
+            color: "white",
+            fontSize: 20,
+          }}
+          key={key}
+        >
+          {item}
+        </Text>
+      ))}
     </View>
   );
 }
