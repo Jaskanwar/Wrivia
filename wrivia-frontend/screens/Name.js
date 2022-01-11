@@ -8,10 +8,11 @@ const axios = require('axios');
 export default function Name({navigation}) {
   const {lobbyId: [lobbyID, setLobbyId]} = React.useContext(StoreContext);
   const {name: [name, setname]} = React.useContext(StoreContext);
+  const {isHost: [isHost, setIsHost]} = React.useContext(StoreContext);
   const baseUrl = "https://wrivia-backend.herokuapp.com/";
 
   function joinLobby(){
-    axios.post(baseUrl + 'api/lobby/join', {id: lobbyID, name: name}).then((res)=>{
+    axios.post(baseUrl + 'api/lobby/join', {id: lobbyID, name: name, host:isHost}).then((res)=>{
       navigation.navigate("NewGame");
     }).catch((err)=>{
       console.log(err)

@@ -4,6 +4,7 @@ import { StyleSheet, Text, View, Image } from "react-native";
 import { Button } from "react-native-elements";
 import * as Clipboard from 'expo-clipboard';
 import { StoreContext } from "../utils/store"
+import Pusher from 'pusher-js';
 
 export default function NewGame() {
   const {lobbyId: [lobbyID, setLobbyId]} = React.useContext(StoreContext);
