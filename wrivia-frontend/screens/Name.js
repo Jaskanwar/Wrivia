@@ -2,20 +2,35 @@ import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
 import { Button, Input } from "react-native-elements";
-import { StoreContext } from "../utils/store"
-const axios = require('axios');
+import { StoreContext } from "../utils/store";
 
-export default function Name({navigation}) {
-  const {lobbyId: [lobbyID, setLobbyId]} = React.useContext(StoreContext);
-  const {name: [name, setname]} = React.useContext(StoreContext);
+const axios = require("axios");
+
+export default function Name({ navigation }) {
+  const {
+    lobbyId: [lobbyID, setLobbyId],
+  } = React.useContext(StoreContext);
+  const {
+    name: [name, setname],
+  } = React.useContext(StoreContext);
+  const {
+    playerList: [playerList, setPlayerList],
+  } = React.useContext(StoreContext);
   const baseUrl = "https://wrivia-backend.herokuapp.com/";
 
-  function joinLobby(){
-    axios.post(baseUrl + 'api/lobby/join', {id: lobbyID, name: name}).then((res)=>{
-      navigation.navigate("NewGame");
-    }).catch((err)=>{
-      console.log(err)
-    })
+  function joinLobby() {
+    axios
+      .post(baseUrl + "api/lobby/join", { id: lobbyID, name: name })
+      .then((res) => {
+        let newPlayerList = res.data.lobby.player.map(x => (
+          x.name
+        ))
+        setPlayerList(newPlayerList)
+        navigation.navigate("NewGame");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   return (
@@ -29,7 +44,7 @@ export default function Name({navigation}) {
       >
         Please enter your name
       </Text>
-      <Input placeholder="Enter name" onChangeText={text => setname(text)}/>
+      <Input placeholder="Enter name" onChangeText={(text) => setname(text)} />
       <Button
         title={"Join"}
         containerStyle={{
@@ -40,7 +55,7 @@ export default function Name({navigation}) {
         buttonStyle={{
           backgroundColor: "#49B5FF",
         }}
-        onPress={()=> joinLobby()}
+        onPress={() => joinLobby()}
       />
     </View>
   );
