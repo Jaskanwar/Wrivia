@@ -5,8 +5,8 @@ import { Button } from "react-native-elements";
 import * as Clipboard from "expo-clipboard";
 import { StoreContext } from "../utils/store";
 const Pusher = require("pusher-js");
-
-export default function NewGame() {
+const axios = require("axios")
+export default function NewGame({navigation}) {
   const {
     lobbyId: [lobbyID, setLobbyId],
   } = React.useContext(StoreContext);
@@ -22,6 +22,22 @@ export default function NewGame() {
   channel.bind(lobbyID, function (data) {
     newPlayerList = data.lobby.player.map((x) => x.name);
     setPlayerList(newPlayerList);
+  });
+
+  const baseUrl = "https://wrivia-backend.herokuapp.com/";
+  function startGame() {
+    axios
+      .post(baseUrl + "api/lobby/start", { id: lobbyID, start: true })
+      .then((res) => {
+        //navigation.navigate("Question")
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+  channel.bind("startGame_"+lobbyID, function (data) {
+    console.log(data)
+    navigation.navigate("Question")
   });
 
   return (
@@ -67,7 +83,7 @@ export default function NewGame() {
         buttonStyle={{
           backgroundColor: "#49B5FF",
         }}
-        onPress={() => Clipboard.setString(lobbyID)}
+        onPress={() => startGame()}
       />
       )}
       

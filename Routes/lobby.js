@@ -19,10 +19,13 @@ router.post("/join", async (req, res) => {
   const { id, name, host } = req.body;
   const where = { lobbyId: id };
   try {
-    const player = await gameData.findOne({ lobbyId: id, "player.name": name }, { "player.$": 1 });
-    if(player){
-        console.log("Player alreadt exists");
-        return res.status(500).send("Player name exists");
+    const player = await gameData.findOne(
+      { lobbyId: id, "player.name": name },
+      { "player.$": 1 }
+    );
+    if (player) {
+      console.log("Player alreadt exists");
+      return res.status(500).send("Player name exists");
     }
     const lobby = await gameData.findOneAndUpdate(
       where,
@@ -54,6 +57,23 @@ router.post("/leave", async (req, res) => {
       lobby,
     });
     res.status(200).send({ lobby: lobby });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Server error");
+  }
+});
+
+router.post("/start", async (req, res) => {
+  const { id, start } = req.body;
+  const where = { lobbyId: id };
+  try {
+    const lobby = await gameData.findOneAndUpdate(
+      where,
+      { startGame: start },
+      { new: true }
+    );
+    pusher.trigger("Wrivia", "startGame_"+id, lobby.startGame);
+    res.status(200).send({ lobby: lobby.startGame });
   } catch (error) {
     console.log(error);
     res.status(500).send("Server error");
