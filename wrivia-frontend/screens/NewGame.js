@@ -5,15 +5,21 @@ import { Button } from "react-native-elements";
 import * as Clipboard from "expo-clipboard";
 import { StoreContext } from "../utils/store";
 const Pusher = require("pusher-js");
-const axios = require("axios")
-export default function NewGame({navigation}) {
+const axios = require("axios");
+export default function NewGame({ navigation }) {
   const {
     lobbyId: [lobbyID, setLobbyId],
   } = React.useContext(StoreContext);
   const {
     playerList: [playerList, setPlayerList],
   } = React.useContext(StoreContext);
-  const {isHost: [isHost, setIsHost]} = React.useContext(StoreContext);
+  const {
+    isHost: [isHost, setIsHost],
+  } = React.useContext(StoreContext);
+  const {
+    name: [name, setname],
+  } = React.useContext(StoreContext);
+
   const pusher = new Pusher("62107c41ec95d815dfa2", {
     cluster: "us2",
   });
@@ -29,15 +35,27 @@ export default function NewGame({navigation}) {
     axios
       .post(baseUrl + "api/lobby/start", { id: lobbyID, start: true })
       .then((res) => {
-        //navigation.navigate("Question")
+        console.log("Game Started successfully");
       })
       .catch((err) => {
         console.log(err);
       });
   }
-  channel.bind("startGame_"+lobbyID, function (data) {
-    console.log(data)
-    navigation.navigate("Question")
+  function leaveGame() {
+    axios
+      .post(baseUrl + "api/lobby/leave", { id: lobbyID, name: name })
+      .then((res) => {
+        navigation.navigate("Title")
+        console.log("Game left successfully");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+  channel.bind("startGame_" + lobbyID, function (data) {
+    if (data) {
+      navigation.navigate("Question");
+    }
   });
 
   return (
@@ -72,9 +90,8 @@ export default function NewGame({navigation}) {
         }}
         onPress={() => Clipboard.setString(lobbyID)}
       />
-      {isHost && (
-        <Button
-        title={"Start Game"}
+      <Button
+        title={"Leave Lobby"}
         containerStyle={{
           width: 200,
           marginHorizontal: 50,
@@ -83,10 +100,22 @@ export default function NewGame({navigation}) {
         buttonStyle={{
           backgroundColor: "#49B5FF",
         }}
-        onPress={() => startGame()}
+        onPress={() => leaveGame()}
       />
+      {isHost && (
+        <Button
+          title={"Start Game"}
+          containerStyle={{
+            width: 200,
+            marginHorizontal: 50,
+            marginVertical: 10,
+          }}
+          buttonStyle={{
+            backgroundColor: "#49B5FF",
+          }}
+          onPress={() => startGame()}
+        />
       )}
-      
       <Text
         style={{
           color: "white",
