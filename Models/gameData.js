@@ -5,6 +5,10 @@ const gameDataSchema = new mongoose.Schema({
         type:String,
         required: true
     },
+    startGame: {
+        type: Boolean,
+        default: false
+    },
     player: [{
         name:{
             type:String,

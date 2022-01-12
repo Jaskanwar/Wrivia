@@ -5,6 +5,7 @@ import Name from "../screens/Name";
 import NewGame from "../screens/NewGame";
 import Title from "../screens/Title";
 import JoinGame from "../screens/JoinGame";
+import Question from "../screens/Question";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 const HomeStack = createNativeStackNavigator();
@@ -17,6 +18,7 @@ export default function Navigation() {
       <HomeStack.Screen name="EnterName" component={Name} />
       <HomeStack.Screen name="NewGame" component={NewGame} />
       <HomeStack.Screen name="JoinGame" component={JoinGame} />
+      <HomeStack.Screen name="Question" component={Question} />
     </HomeStack.Navigator>
   );
 }
