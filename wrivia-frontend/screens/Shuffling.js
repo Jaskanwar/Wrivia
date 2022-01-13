@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
 import { Button, LinearProgress } from "react-native-elements";
+import { StoreContext } from "../utils/store";
 const axios = require("axios");
 const Pusher = require("pusher-js");
 
@@ -28,9 +29,12 @@ export default function Shuffling({navigation}) {
     cluster: "us2",
   });
   var channel = pusher.subscribe("Wrivia");
+  const baseUrl = "https://wrivia-backend.herokuapp.com/";
   useEffect(() => {
     if (isHost && startRound) {
-      setPlayerQuestion(playerList)
+      console.log(playerList, "Hello1")
+      setPlayerQuestion("Hello")
+      console.log(playerQuestion, "Hello")
       axios
         .post(baseUrl + "api/question/create", {
           id: lobbyID,

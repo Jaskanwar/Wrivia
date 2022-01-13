@@ -8,7 +8,7 @@ export default ({ children }) => {
   const [playerList, setPlayerList] = React.useState([]);
   const [startRound, setStartRound] = React.useState(false);
   const [displayQuestion, setdisplayQuestion] = React.useState();
-  const [playerQuestion, setPlayerQuestion] = React.useState();
+  const [playerQuestion, setPlayerQuestion] = React.useState([]);
 
   const store = {
     lobbyId: [lobbyID, setLobbyId],
