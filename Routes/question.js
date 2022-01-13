@@ -26,6 +26,7 @@ router.post("/question", async (req, res) => {
   const where = { lobbyId: id, "player.name": name };
   try {
     const player = await gameData.findOne(where, { "player.$": 1 });
+    pusher.trigger("Wrivia", "Question_"+id, player);
     res.status(200).send({ player });
   } catch (error) {
     console.log(error);

@@ -6,6 +6,7 @@ import * as Clipboard from "expo-clipboard";
 import { StoreContext } from "../utils/store";
 const Pusher = require("pusher-js");
 const axios = require("axios");
+
 export default function NewGame({ navigation }) {
   const {
     lobbyId: [lobbyID, setLobbyId],
