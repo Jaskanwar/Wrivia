@@ -25,9 +25,15 @@ router.post("/question", async (req, res) => {
   const { id, name } = req.body;
   const where = { lobbyId: id, "player.name": name };
   try {
-    const player = await gameData.findOne(where, { "player.$": 1 });
-    pusher.trigger("Wrivia", "Question_"+id, player);
-    res.status(200).send({ player });
+    const numPlayers = await gameData.findOneAndUpdate({lobbyID: id}, {$inc: {numPlayers: 1}}, {new: true})
+    const playersLen = await gameData.aggregate([{$project: { count: { $size:"$player" }}}])
+    console.log(playersLen[0].count, )
+    if(playersLen[0].count === numPlayers.numPlayers){
+      const player = await gameData.findOne(where, { "player.$": 1 });
+      pusher.trigger("Wrivia", "Question_"+id, player);
+      return res.status(200).send({ player })
+    }
+    res.status(200).send();
   } catch (error) {
     console.log(error);
     res.status(500).send("Server error");

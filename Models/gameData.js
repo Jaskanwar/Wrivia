@@ -9,6 +9,10 @@ const gameDataSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+    numPlayers: {
+        type: Number,
+        default: 0
+    },
     player: [{
         name:{
             type:String,
