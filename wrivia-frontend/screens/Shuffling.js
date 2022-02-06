@@ -32,27 +32,27 @@ export default function Shuffling({navigation}) {
   const baseUrl = "https://wrivia-backend.herokuapp.com/";
   useEffect(() => {
     if (isHost && startRound) {
-      console.log(playerList, "Hello1")
-      setPlayerQuestion("Hello")
-      console.log(playerQuestion, "Hello")
       axios
-        .post(baseUrl + "api/question/create", {
+        .post(baseUrl + "api/question/question", {
           id: lobbyID,
-          name: playerQuestion[0],
+          name: playerList[0],
         })
         .then((res) => {
-          setPlayerQuestion(playerQuestion.shift())
+          console.log(res.data)
+          //setPlayerQuestion(playerQuestion.shift())
         })
         .catch((err) => {
           console.log(err);
         });
     }
   },[]);
-  channel.bind("Question_"+lobbyID, function (data) {
-    setdisplayQuestion(data.player.player);
-    console.log(displayQuestion)
-  });
 
+  channel.bind("Question_" + lobbyID, function (data) {
+    if (data) {
+      console.log(data)
+    }
+  });
+  
   return (
     <View style={styles.container}>
       <Image
