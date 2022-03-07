@@ -29,17 +29,18 @@ export default function Shuffling({navigation}) {
     cluster: "us2",
   });
   var channel = pusher.subscribe("Wrivia");
-  const baseUrl = "https://wrivia-backend.herokuapp.com/";
+  //const baseUrl = "https://wrivia-backend.herokuapp.com/";
+  const baseUrl = "http://192.168.0.41:5000/"; // Using this to test locally 
   useEffect(() => {
-    if (isHost && startRound) {
+    if (startRound) {
       axios
         .post(baseUrl + "api/question/question", {
           id: lobbyID,
-          name: playerList[0],
+          name: playerQuestion[0],
         })
         .then((res) => {
-          console.log(res.data)
-          //setPlayerQuestion(playerQuestion.shift())
+          setdisplayQuestion(res.data.player[0].question);
+          setPlayerQuestion(playerQuestion.shift());
         })
         .catch((err) => {
           console.log(err);
@@ -47,12 +48,12 @@ export default function Shuffling({navigation}) {
     }
   },[]);
 
-  channel.bind("Question_" + lobbyID, function (data) {
+  channel.bind("Question_" +lobbyID, function (data) {
     if (data) {
-      console.log(data)
+      setdisplayQuestion(data.player[0].question);
     }
   });
-  
+
   return (
     <View style={styles.container}>
       <Image

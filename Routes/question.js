@@ -25,11 +25,11 @@ router.post("/question", async (req, res) => {
   const { id, name } = req.body;
   const where = { lobbyId: id, "player.name": name };
   try {
-    const numPlayers = await gameData.findOneAndUpdate({lobbyID: id}, {$inc: {numPlayers: 1}}, {new: true})
-    const playersLen = await gameData.aggregate([{$project: { count: { $size:"$player" }}}])
-    console.log(playersLen[0].count, )
+    const numPlayers = await gameData.findOneAndUpdate({lobbyId: id}, {$inc: {numPlayers: 1}}, {new: true});
+    const playersLen = await gameData.aggregate([{$match: {lobbyId: id}},{$project: { count: { $size:"$player" }}}])
     if(playersLen[0].count === numPlayers.numPlayers){
       const player = await gameData.findOne(where, { "player.$": 1 });
+      const resetNum = await gameData.findOneAndUpdate({lobbyId: id}, {numPlayers: 0}, {new: true});
       pusher.trigger("Wrivia", "Question_"+id, player);
       return res.status(200).send({ player })
     }

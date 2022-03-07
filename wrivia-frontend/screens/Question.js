@@ -26,6 +26,7 @@ export default function Question({ navigation }) {
       decrement--;
     }, 1000);
     setTimeout(() => {
+      setStartRound(true);
       navigation.navigate("Shuffling");
     }, 30000);
   }, []);
