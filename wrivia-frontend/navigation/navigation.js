@@ -6,7 +6,13 @@ import NewGame from "../screens/NewGame";
 import Title from "../screens/Title";
 import JoinGame from "../screens/JoinGame";
 import Question from "../screens/Question";
-import Shuffling from "../screens/Shuffling"
+import Shuffling from "../screens/Shuffling";
+import Answer from "../screens/Answer";
+import CorrectAnswer from "../screens/CorrectAnswer";
+import Guessing from "../screens/Guessing";
+import Answering from "../screens/Answering";
+import Gameover from "../screens/Gameover";
+
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 const HomeStack = createNativeStackNavigator();
