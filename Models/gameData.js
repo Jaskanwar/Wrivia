@@ -21,6 +21,10 @@ const gameDataSchema = new mongoose.Schema({
             type:String,
             default: null
         },
+        answer:{
+            type:String,
+            default: null
+        },
         score:{
             type: Number,
             default: 0

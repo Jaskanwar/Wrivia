@@ -25,9 +25,12 @@ export default function Question({ navigation }) {
       settimer(decrement);
       decrement--;
     }, 1000);
+    /*
     setTimeout(() => {
+      setStartRound(true);
       navigation.navigate("Shuffling");
     }, 30000);
+    */
   }, []);
 
   const baseUrl = "https://wrivia-backend.herokuapp.com/";

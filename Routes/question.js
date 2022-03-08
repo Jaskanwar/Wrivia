@@ -25,13 +25,48 @@ router.post("/question", async (req, res) => {
   const { id, name } = req.body;
   const where = { lobbyId: id, "player.name": name };
   try {
-    const numPlayers = await gameData.findOneAndUpdate({lobbyID: id}, {$inc: {numPlayers: 1}}, {new: true})
-    const playersLen = await gameData.aggregate([{$project: { count: { $size:"$player" }}}])
-    console.log(playersLen[0].count, )
+    const numPlayers = await gameData.findOneAndUpdate({lobbyId: id}, {$inc: {numPlayers: 1}}, {new: true});
+    const playersLen = await gameData.aggregate([{$match: {lobbyId: id}},{$project: { count: { $size:"$player" }}}])
     if(playersLen[0].count === numPlayers.numPlayers){
       const player = await gameData.findOne(where, { "player.$": 1 });
+      const resetNum = await gameData.findOneAndUpdate({lobbyId: id}, {numPlayers: 0}, {new: true});
       pusher.trigger("Wrivia", "Question_"+id, player);
       return res.status(200).send({ player })
+    }
+    res.status(200).send();
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Server error");
+  }
+});
+
+router.post("/answer", async (req, res) => {
+  const { id, name, answer } = req.body;
+  const where = { lobbyId: id, "player.name": name };
+  try {
+    const lobby = await gameData.findOneAndUpdate(
+      where,
+      { $set: { "player.$.answer": answer } },
+      {
+        new: true,
+      }
+    );
+    res.status(200).send({ lobby });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Server error");
+  }
+});
+
+router.post("/numAnswered", async (req, res) => {
+  const { id } = req.body;
+  try {
+    const numPlayers = await gameData.findOneAndUpdate({lobbyId: id}, {$inc: {numPlayers: 1}}, {new: true});
+    const playersLen = await gameData.aggregate([{$match: {lobbyId: id}},{$project: { count: { $size:"$player" }}}])
+    if(playersLen[0].count === numPlayers.numPlayers){
+      const resetNum = await gameData.findOneAndUpdate({lobbyId: id}, {numPlayers: 0}, {new: true});
+      pusher.trigger("Wrivia", "Answered_"+id, {scoring: true});
+      return res.status(200).send({scoring: true})
     }
     res.status(200).send();
   } catch (error) {

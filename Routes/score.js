@@ -22,7 +22,7 @@ router.post("/save", async (req, res) => {
   });
   
   router.post("/score", async (req, res) => {
-    const { id, name } = req.body;
+    const { id } = req.body;
     const where = { lobbyId: id };
     try {
       const scores = await gameData.findOne(where);
