@@ -23,10 +23,16 @@ export default function NewGame({ navigation }) {
   const {
     playerQuestion: [playerQuestion, setPlayerQuestion]
   } = React.useContext(StoreContext);
-
+  /*
   const pusher = new Pusher("62107c41ec95d815dfa2", {
     cluster: "us2",
   });
+  */
+
+  var pusher = new Pusher('2f00810004e7666c33d0', {
+    cluster: 'mt1'
+  });
+  
   var channel = pusher.subscribe("Wrivia");
   let newPlayerList = [];
   channel.bind(lobbyID, function (data) {

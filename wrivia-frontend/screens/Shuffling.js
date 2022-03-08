@@ -21,12 +21,18 @@ export default function Shuffling({navigation}) {
   const {
     displayQuestion: [displayQuestion, setdisplayQuestion],
   } = React.useContext(StoreContext);
-
+  /*
   const pusher = new Pusher("62107c41ec95d815dfa2", {
     cluster: "us2",
   });
+  */
+  var pusher = new Pusher('2f00810004e7666c33d0', {
+    cluster: 'mt1'
+  });
+
   var channel = pusher.subscribe("Wrivia");
   const baseUrl = "https://wrivia-backend.herokuapp.com/";
+  //const baseUrl = "http://192.168.0.41:5000/";
   useEffect(() => {
     if (startRound) {
       axios
@@ -35,7 +41,7 @@ export default function Shuffling({navigation}) {
           name: playerQuestion[0],
         })
         .then((res) => {
-          setdisplayQuestion(res.data.player[0].question);
+          //setdisplayQuestion(res.data.player[0].question);
           setPlayerQuestion(playerQuestion.shift());
         })
         .catch((err) => {
