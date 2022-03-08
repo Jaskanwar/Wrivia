@@ -25,12 +25,17 @@ export default function Question({ navigation }) {
       settimer(decrement);
       decrement--;
     }, 1000);
+    /*
     setTimeout(() => {
+      setStartRound(true);
       navigation.navigate("Shuffling");
     }, 30000);
+    */
   }, []);
 
-  const baseUrl = "https://wrivia-backend.herokuapp.com/";
+  //const baseUrl = "https://wrivia-backend.herokuapp.com/";
+  const baseUrl = "http://192.168.0.41:5000/"
+
   function enterQuestion() {
     axios
       .post(baseUrl + "api/question/create", {

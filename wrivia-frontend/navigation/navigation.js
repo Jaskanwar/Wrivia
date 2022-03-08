@@ -29,6 +29,9 @@ export default function Navigation() {
       <HomeStack.Screen name="Question" component={Question} />
       <HomeStack.Screen name="Shuffling" component={Shuffling} />
       <HomeStack.Screen name="Instructions" component={Instructions} />
+      <HomeStack.Screen name="Answer" component={Answer} />
+      <HomeStack.Screen name="QuestionAnswered" component={Answering} />
+      <HomeStack.Screen name="chooseAnswer" component={CorrectAnswer} />
     </HomeStack.Navigator>
   );
 }

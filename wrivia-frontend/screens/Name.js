@@ -16,6 +16,9 @@ export default function Name({ navigation }) {
   const {
     playerList: [playerList, setPlayerList],
   } = React.useContext(StoreContext);
+  const {
+    playerQuestion: [playerQuestion, setPlayerQuestion]
+  } = React.useContext(StoreContext);
   const {isHost: [isHost, setIsHost]} = React.useContext(StoreContext);
   const baseUrl = "https://wrivia-backend.herokuapp.com/";
 
@@ -26,7 +29,8 @@ export default function Name({ navigation }) {
         let newPlayerList = res.data.lobby.player.map(x => (
           x.name
         ))
-        setPlayerList(newPlayerList)
+        setPlayerList(newPlayerList);
+        setPlayerQuestion(newPlayerList);
         navigation.navigate("NewGame");
       })
       .catch((err) => {

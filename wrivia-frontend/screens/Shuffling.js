@@ -7,9 +7,6 @@ const Pusher = require("pusher-js");
 
 export default function Shuffling({navigation}) {
   const {
-    isHost: [isHost, setIsHost],
-  } = React.useContext(StoreContext);
-  const {
     lobbyId: [lobbyID, setLobbyId],
   } = React.useContext(StoreContext);
   const {
@@ -30,16 +27,20 @@ export default function Shuffling({navigation}) {
   });
   var channel = pusher.subscribe("Wrivia");
   const baseUrl = "https://wrivia-backend.herokuapp.com/";
+
   useEffect(() => {
-    if (isHost && startRound) {
+    if (startRound) {
       axios
         .post(baseUrl + "api/question/question", {
           id: lobbyID,
-          name: playerList[0],
+          name: playerQuestion[0],
         })
         .then((res) => {
-          console.log(res.data)
-          //setPlayerQuestion(playerQuestion.shift())
+          if(res.data.next){
+            setdisplayQuestion(res.data.player.player[0].question);
+            navigation.navigate("Answer");
+          }
+          setPlayerQuestion(playerQuestion.shift());
         })
         .catch((err) => {
           console.log(err);
@@ -47,12 +48,13 @@ export default function Shuffling({navigation}) {
     }
   },[]);
 
-  channel.bind("Question_" + lobbyID, function (data) {
+  channel.bind("Question_" +lobbyID, function (data) {
     if (data) {
-      console.log(data)
+      setdisplayQuestion(data.player[0].question);
+      navigation.navigate("Answer");
     }
   });
-  
+
   return (
     <View style={styles.container}>
       <Image

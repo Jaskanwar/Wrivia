@@ -20,6 +20,9 @@ export default function NewGame({ navigation }) {
   const {
     name: [name, setname],
   } = React.useContext(StoreContext);
+  const {
+    playerQuestion: [playerQuestion, setPlayerQuestion]
+  } = React.useContext(StoreContext);
 
   const pusher = new Pusher("62107c41ec95d815dfa2", {
     cluster: "us2",
@@ -29,6 +32,7 @@ export default function NewGame({ navigation }) {
   channel.bind(lobbyID, function (data) {
     newPlayerList = data.lobby.player.map((x) => x.name);
     setPlayerList(newPlayerList);
+    setPlayerQuestion(newPlayerList);
   });
 
   const baseUrl = "https://wrivia-backend.herokuapp.com/";
