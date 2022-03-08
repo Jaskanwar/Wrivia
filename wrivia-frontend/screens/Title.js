@@ -3,7 +3,7 @@ import React from "react";
 import { Button } from "react-native-elements";
 import { StyleSheet, Text, View, Image } from "react-native";
 
-export default function Title({navigation}) {
+export default function Title({ navigation }) {
   return (
     <View style={styles.container}>
       <Image
@@ -17,25 +17,26 @@ export default function Title({navigation}) {
       <Button
         title={"Start"}
         containerStyle={{
-          width: 200,
-          marginHorizontal: 50,
-          marginVertical: 10,
+          width: 300,
+          marginBottom: 20,
         }}
         buttonStyle={{
-          backgroundColor: "#49B5FF",
+          backgroundColor: "#FF4F63",
         }}
+        titleStyle={{ fontWeight: "bold", fontSize: 18 }}
         onPress={() => navigation.navigate("Lobby")}
       />
       <Button
         title={"Instructions"}
         containerStyle={{
-          width: 200,
-          marginHorizontal: 50,
-          marginVertical: 10,
+          width: 300,
+          marginBottom: 100,
         }}
         buttonStyle={{
           backgroundColor: "#49B5FF",
         }}
+        titleStyle={{ fontWeight: "bold", fontSize: 18 }}
+        onPress={() => navigation.navigate("Instructions")}
       />
     </View>
   );
