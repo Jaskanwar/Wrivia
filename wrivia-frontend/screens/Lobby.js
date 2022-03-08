@@ -57,15 +57,27 @@ export default function Lobby({ navigation }) {
         title={"Join An Existing Game"}
         containerStyle={{
           width: 300,
-          paddingTop: 20,
           marginHorizontal: 50,
+          marginVertical: 10,
+        }}
+        buttonStyle={{
+          backgroundColor: "#B6B422",
+        }}
+        titleStyle={{ fontWeight: "bold", fontSize: 18 }}
+        onPress={() => navigation.navigate("JoinGame")}
+      />
+      <Button
+        title={"Back Home"}
+        containerStyle={{
+          width: 300,
+          paddingBottom: 50,
           marginVertical: 10,
         }}
         buttonStyle={{
           backgroundColor: "#49B5FF",
         }}
         titleStyle={{ fontWeight: "bold", fontSize: 18 }}
-        onPress={() => navigation.navigate("JoinGame")}
+        onPress={() => navigation.navigate("Title")}
       />
     </View>
   );

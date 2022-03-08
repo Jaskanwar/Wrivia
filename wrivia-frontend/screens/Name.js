@@ -17,18 +17,22 @@ export default function Name({ navigation }) {
     playerList: [playerList, setPlayerList],
   } = React.useContext(StoreContext);
   const {
-    playerQuestion: [playerQuestion, setPlayerQuestion]
+    playerQuestion: [playerQuestion, setPlayerQuestion],
   } = React.useContext(StoreContext);
-  const {isHost: [isHost, setIsHost]} = React.useContext(StoreContext);
+  const {
+    isHost: [isHost, setIsHost],
+  } = React.useContext(StoreContext);
   const baseUrl = "https://wrivia-backend.herokuapp.com/";
 
   function joinLobby() {
     axios
-      .post(baseUrl + "api/lobby/join", { id: lobbyID, name: name, host: isHost })
+      .post(baseUrl + "api/lobby/join", {
+        id: lobbyID,
+        name: name,
+        host: isHost,
+      })
       .then((res) => {
-        let newPlayerList = res.data.lobby.player.map(x => (
-          x.name
-        ))
+        let newPlayerList = res.data.lobby.player.map((x) => x.name);
         setPlayerList(newPlayerList);
         setPlayerQuestion(newPlayerList);
         navigation.navigate("NewGame");
@@ -45,22 +49,53 @@ export default function Name({ navigation }) {
           color: "white",
           fontSize: 30,
           fontWeight: "600",
+          marginTop: -200,
+          paddingHorizontal: 40,
+          textAlign: "center",
         }}
       >
         Please enter your name
       </Text>
-      <Input placeholder="Enter name" onChangeText={(text) => setname(text)} />
-      <Button
-        title={"Join"}
+      <Input
+        inputStyle={{
+          color: "white",
+        }}
+        disabledInputStyle={{ borderColor: "white" }}
+        labelStyle={{ borderColor: "white" }}
         containerStyle={{
-          width: 200,
+          paddingTop: 100,
+          color: "white",
+          paddingHorizontal: 25,
+        }}
+        placeholder="Enter name"
+        onChangeText={(text) => setname(text)}
+      />
+      <Button
+        title={"Start"}
+        containerStyle={{
+          width: 300,
           marginHorizontal: 50,
-          marginVertical: 10,
+          position: "absolute",
+          bottom: 160,
+        }}
+        buttonStyle={{
+          backgroundColor: "#FF4F63",
+        }}
+        titleStyle={{ fontWeight: "bold", fontSize: 18 }}
+        onPress={() => joinLobby()}
+      />
+      <Button
+        title={"Back Home"}
+        containerStyle={{
+          width: 300,
+          position: "absolute",
+          bottom: 100,
         }}
         buttonStyle={{
           backgroundColor: "#49B5FF",
         }}
-        onPress={() => joinLobby()}
+        titleStyle={{ fontWeight: "bold", fontSize: 18 }}
+        onPress={() => navigation.navigate("Title")}
       />
     </View>
   );
