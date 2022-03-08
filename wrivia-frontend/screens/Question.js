@@ -33,8 +33,7 @@ export default function Question({ navigation }) {
     */
   }, []);
 
-  //const baseUrl = "https://wrivia-backend.herokuapp.com/";
-  const baseUrl = "http://192.168.0.41:5000/"
+  const baseUrl = "https://wrivia-backend.herokuapp.com/";
 
   function enterQuestion() {
     axios
