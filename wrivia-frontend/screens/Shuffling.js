@@ -7,9 +7,6 @@ const Pusher = require("pusher-js");
 
 export default function Shuffling({navigation}) {
   const {
-    isHost: [isHost, setIsHost],
-  } = React.useContext(StoreContext);
-  const {
     lobbyId: [lobbyID, setLobbyId],
   } = React.useContext(StoreContext);
   const {
@@ -29,8 +26,7 @@ export default function Shuffling({navigation}) {
     cluster: "us2",
   });
   var channel = pusher.subscribe("Wrivia");
-  //const baseUrl = "https://wrivia-backend.herokuapp.com/";
-  const baseUrl = "http://192.168.0.41:5000/"; // Using this to test locally 
+  const baseUrl = "https://wrivia-backend.herokuapp.com/";
   useEffect(() => {
     if (startRound) {
       axios
@@ -51,6 +47,7 @@ export default function Shuffling({navigation}) {
   channel.bind("Question_" +lobbyID, function (data) {
     if (data) {
       setdisplayQuestion(data.player[0].question);
+      navigation.navigate("Answer");
     }
   });
 

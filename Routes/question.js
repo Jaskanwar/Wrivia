@@ -40,6 +40,41 @@ router.post("/question", async (req, res) => {
   }
 });
 
+router.post("/answer", async (req, res) => {
+  const { id, name, answer } = req.body;
+  const where = { lobbyId: id, "player.name": name };
+  try {
+    const lobby = await gameData.findOneAndUpdate(
+      where,
+      { $set: { "player.$.answer": answer } },
+      {
+        new: true,
+      }
+    );
+    res.status(200).send({ lobby });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Server error");
+  }
+});
+
+router.post("/numAnswered", async (req, res) => {
+  const { id } = req.body;
+  try {
+    const numPlayers = await gameData.findOneAndUpdate({lobbyId: id}, {$inc: {numPlayers: 1}}, {new: true});
+    const playersLen = await gameData.aggregate([{$match: {lobbyId: id}},{$project: { count: { $size:"$player" }}}])
+    if(playersLen[0].count === numPlayers.numPlayers){
+      const resetNum = await gameData.findOneAndUpdate({lobbyId: id}, {numPlayers: 0}, {new: true});
+      pusher.trigger("Wrivia", "Answered_"+id, {scoring: true});
+      return res.status(200).send({scoring: true})
+    }
+    res.status(200).send();
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Server error");
+  }
+});
+
 module.exports = router;
 
 /*
