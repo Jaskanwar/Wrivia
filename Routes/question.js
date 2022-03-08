@@ -31,7 +31,7 @@ router.post("/question", async (req, res) => {
       const player = await gameData.findOne(where, { "player.$": 1 });
       const resetNum = await gameData.findOneAndUpdate({lobbyId: id}, {numPlayers: 0}, {new: true});
       pusher.trigger("Wrivia", "Question_"+id, player);
-      return res.status(200).send({ player })
+      return res.status(200).send({ player, next:true });
     }
     res.status(200).send();
   } catch (error) {

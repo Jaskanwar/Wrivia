@@ -33,7 +33,9 @@ export default function Question({ navigation }) {
     */
   }, []);
 
-  const baseUrl = "https://wrivia-backend.herokuapp.com/";
+  //const baseUrl = "https://wrivia-backend.herokuapp.com/";
+  const baseUrl = "http://192.168.0.41:5000/"
+
   function enterQuestion() {
     axios
       .post(baseUrl + "api/question/create", {

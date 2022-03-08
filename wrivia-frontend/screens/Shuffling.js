@@ -27,6 +27,7 @@ export default function Shuffling({navigation}) {
   });
   var channel = pusher.subscribe("Wrivia");
   const baseUrl = "https://wrivia-backend.herokuapp.com/";
+
   useEffect(() => {
     if (startRound) {
       axios
@@ -35,7 +36,10 @@ export default function Shuffling({navigation}) {
           name: playerQuestion[0],
         })
         .then((res) => {
-          setdisplayQuestion(res.data.player[0].question);
+          if(res.data.next){
+            setdisplayQuestion(res.data.player.player[0].question);
+            navigation.navigate("Answer");
+          }
           setPlayerQuestion(playerQuestion.shift());
         })
         .catch((err) => {

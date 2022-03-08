@@ -16,6 +16,7 @@ export default function Answering({navigation}) {
   });
   var channel = pusher.subscribe("Wrivia");
   const baseUrl = "https://wrivia-backend.herokuapp.com/";
+
   useEffect(() => {
     if (startRound) {
       axios
@@ -23,7 +24,9 @@ export default function Answering({navigation}) {
           id: lobbyID,
         })
         .then((res) => {
-          console.log(res.status);
+          if(res.data.scoring === true){
+            navigation.navigate("chooseAnswer");
+          }
         })
         .catch((err) => {
           console.log(err);
@@ -33,7 +36,6 @@ export default function Answering({navigation}) {
 
   channel.bind("Answered_" +lobbyID, function (data) {
     if (data.scoring === true) {
-      console.log(data);
       navigation.navigate("chooseAnswer");
     }
   });
