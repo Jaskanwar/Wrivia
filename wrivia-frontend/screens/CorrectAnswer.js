@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
 import { Button, Input, CheckBox } from "react-native-elements";
 
-const CorrectAnswer = () => {
+const CorrectAnswer = ({ navigation }) => {
   const arr = [
     { id: 1, text: "answer1" },
     { id: 2, text: "answer2" },
@@ -51,6 +51,7 @@ const CorrectAnswer = () => {
         buttonStyle={{
           backgroundColor: "#49B5FF",
         }}
+        onPress={() => navigation.navigate("Matching")}
       />
     </View>
   );
