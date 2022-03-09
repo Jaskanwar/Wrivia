@@ -16,7 +16,7 @@ export default function Answering({navigation}) {
   });
   var channel = pusher.subscribe("Wrivia");
   const {
-    gameData: [gameData, setGameData],
+    gameData: {gameData, setGameData},
   } = React.useContext(StoreContext);
   const baseUrl = "https://wrivia-backend.herokuapp.com/";
 
@@ -46,8 +46,7 @@ export default function Answering({navigation}) {
       })
       .then((res) => {
         
-        allArr = res.data.scores.player
-        setGameData({res});
+        setGameData(res.data.scores.player);
       })
       .catch((err) => {
         console.log(err);
