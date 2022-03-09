@@ -1,16 +1,89 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
 import { Button, Input, CheckBox } from "react-native-elements";
+const axios = require("axios");
+const baseUrl = "https://wrivia-backend.herokuapp.com/";
+import { StoreContext } from "../utils/store";
 
-const CorrectAnswer = () => {
-  const arr = [
-    { id: 1, text: "answer1" },
-    { id: 2, text: "answer2" },
-    { id: 3, text: "answer3" },
-  ];
-  const [check0, setCheck0] = useState(false);
-  const [check1, setCheck1] = useState(false);
-  const [check2, setCheck2] = useState(false);
+
+export default function CorrectAnswer ({navigation}){
+  // const arr = [
+  //   { id: 1, text: "answer1" },
+  //   { id: 2, text: "answer2" },
+  //   { id: 3, text: "answer3" },
+  // ];
+  for(var ac = 0;ac<1;ac++){
+  const {
+    name: [name, setname],
+  } = React.useContext(StoreContext);
+  const {
+    gameData: [gameData, setGameData],
+  } = React.useContext(StoreContext);
+  const {
+    lobbyId: [lobbyID, setLobbyId],
+  } = React.useContext(StoreContext);
+  //my assumption is that the above is mock data to display on the screen
+
+
+  
+  var checks = [];
+  var allArr;
+  // axios
+  //   .post(baseUrl + "api/score/score", {
+  //     id: lobbyID,
+  //     name: name,
+  //     score: 0
+  //  })
+  //   .then((res) => {
+  //     allArr =res;
+
+  //     setGameData(allArr.data.scores.player)
+  //   })
+  //   .catch((err) => {
+  //     console.log(err);
+  //   });
+  // var currArr;
+  // for(var c = 0;c<allArr[])
+
+  console.log(gameData)
+  console.log("asfd")
+var arr = []
+  try{
+    arr =gameData
+
+  }
+  catch(e){
+    console.log(e)
+  }
+console.log("asfd")
+  // for(var c = 0;c<allArr.data.scores.player.length;c++){
+  //   arr.push(allArr.scores.player[c].answer);
+  // }
+
+  }
+
+  for ( var i = 0; i < arr.length; i++) {
+    var checkHolder = Object();
+
+    const [check, setCheck] = useState(false);
+
+    checks.push(
+      <CheckBox
+        center
+        title={arr[i]}
+        checked={check}
+        onPress={() => setCheck(!check)}
+      />
+    );
+  }
+  function submitCorrectAnswers() {
+    
+
+    for(var j = 0;j<checks.length;j++){
+      
+    }
+  }
+
   return (
     <View style={styles.container}>
       <Text
@@ -23,7 +96,8 @@ const CorrectAnswer = () => {
         Select all of the correct answers. The unchecked ones will be considered
         as incorrect.
       </Text>
-      <CheckBox
+      {checks}
+      {/* <CheckBox
         center
         title={arr[0].text}
         checked={check0}
@@ -40,9 +114,17 @@ const CorrectAnswer = () => {
         title={arr[2].text}
         checked={check2}
         onPress={() => setCheck2(!check2)}
-      />
+      /> */}
+      {/* <CheckBox
+        center
+        title={arr[0].text}
+        checked={check0}
+        onPress={() => setCheck0(!check0)}
+      /> */}
+
       <Button
         title={"Submit"}
+        onPress ={submitCorrectAnswers}
         containerStyle={{
           width: 200,
           marginHorizontal: 50,
@@ -65,4 +147,3 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CorrectAnswer;

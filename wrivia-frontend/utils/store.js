@@ -10,6 +10,7 @@ export default ({ children }) => {
   const [displayQuestion, setdisplayQuestion] = React.useState();
   const [playerQuestion, setPlayerQuestion] = React.useState([]);
   const [answer, setAnswer] = React.useState("");
+  const [gameData, setGameData] = React.useState();
 
   const store = {
     lobbyId: [lobbyID, setLobbyId],
