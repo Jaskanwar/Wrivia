@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
 import { Button, Input, CheckBox } from "react-native-elements";
 const axios = require("axios");
@@ -35,10 +35,7 @@ var hooksB = []
           console.log(res.data.scores.player)
           setGameData(res.data.scores.player);
           for(var ac =0;ac<res.data.scores.player;ac++){
-            const [check, setCheck] = useState(false);
 
-            hooks.push(check)
-            hooksB.push(setCheck);
 
           }
         })
@@ -67,6 +64,24 @@ var hooksB = []
     // for(var c = 0;c<allArr[])
       console.log(gameData);
       console.log("asfd");
+      const {visibilities, setVisibilities}  = React.useState(() => gameData.map((x) => true));
+
+      
+      const [checkState, setCheckState] = useState(new Array(gameData.length).fill(false));
+      const handleOnChange = (position) => {
+        const updatedCheckedState = checkState.map((item, index) =>
+          index === position ? !item : item
+        );
+        console.log(position+"sdf")
+        console.log(checkState+"checj")
+
+    
+        setCheckState(updatedCheckedState);
+    
+    
+      };
+    
+
       var arr = [];
       try {
         arr = gameData;
@@ -81,23 +96,18 @@ var hooksB = []
       for (var i = 0; i < arr.length; i++) {
         var checkHolder = Object();
         
-       
-
         checks.push(
           <CheckBox
             center
             title={arr[i].answer}
-            checked={hooks[i]}
-            onPress={() => {
-              console.log(typeof(hooksB[i]))
-            }}
-          />
+            checked={checkState[i]}
+            onPress={() => handleOnChange(i)}
+    />
         );
       }
+      console.log("passed")
       
-  function setCheck(ch){
-    ch = !ch
-  }
+  
     
   
   function submitCorrectAnswers() {
