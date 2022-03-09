@@ -66,21 +66,17 @@ var hooksB = []
       console.log("asfd");
       const {visibilities, setVisibilities}  = React.useState(() => gameData.map((x) => true));
 
-      
-      const [checkState, setCheckState] = useState(new Array(gameData.length).fill(false));
-      const handleOnChange = (position) => {
-        const updatedCheckedState = checkState.map((item, index) =>
-          index === position ? !item : item
-        );
-        console.log(position+"sdf")
-        console.log(checkState+"checj")
 
-    
-        setCheckState(updatedCheckedState);
-    
-    
+      const [check, setCheck] = useState(false);
+    const refInputs = useRef([check]);
+    const setInputValue = (index) => {
+      console.log(index);
+
+      const inputs = refInputs.current;
+      inputs[index] = !inputs[index];
+      setCheck(inputs[index])
       };
-    
+
 
       var arr = [];
       try {
@@ -93,25 +89,40 @@ var hooksB = []
       //   arr.push(allArr.scores.player[c].answer);
       // }
       
-      for (var i = 0; i < arr.length; i++) {
+      // for (var i = 0; i < arr.length; i++) {
+      //   console.log(i+"start")
+      arr.map((element, id)=>{
         var checkHolder = Object();
         
+       console.log(refInputs.current[id])
+
         checks.push(
           <CheckBox
             center
-            title={arr[i].answer}
-            checked={checkState[i]}
-            onPress={() => handleOnChange(i)}
+            title={element.answer}
+            checked={refInputs.current[id]}
+            onPress={() => setInputValue(id)}
     />
         );
-      }
+      
+    })
       console.log("passed")
       
   
     
   
   function submitCorrectAnswers() {
-    for (var j = 0; j < checks.length; j++) {}
+    arr.map((element,id)=>{
+      if(refInputs.current[id]){
+        //mark as correct
+        element.isCorrect = true;
+        console.log(id);
+        
+      }
+    })
+    
+    //push to backend
+
   }
 
   return (

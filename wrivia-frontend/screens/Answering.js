@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
 import { StoreContext } from "../utils/store";
 const axios = require("axios");
@@ -15,7 +15,6 @@ export default function Answering({navigation}) {
     cluster: "us2",
   });
   var channel = pusher.subscribe("Wrivia");
-  
   const baseUrl = "https://wrivia-backend.herokuapp.com/";
 
   useEffect(() => {
@@ -35,7 +34,6 @@ export default function Answering({navigation}) {
     }
   },[]);
   
-
   channel.bind("Answered_" +lobbyID, function (data) {
     if (data.scoring === true) {
       navigation.navigate("chooseAnswer");
