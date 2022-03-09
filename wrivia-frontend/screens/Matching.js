@@ -1,11 +1,46 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { StyleSheet, Text, View, Image, ScrollView } from "react-native";
 import { Button, Input, CheckBox } from "react-native-elements";
-import { Picker } from "@react-native-picker/picker";
 import { StoreContext } from "../utils/store";
+const axios = require("axios");
 
-const Matching = () => {
-  var score = 0;
+const Matching = ({ navigation }) => {
+  const [textValue, setTextValue] = useState("");
+  const [score, setScore] = useState(0);
+  const refInputs = useRef([textValue]);
+  const setInputValue = (index, value) => {
+    const inputs = refInputs.current;
+    inputs[index] = value;
+    setTextValue(value);
+  };
+  const {
+    name: [name, setname],
+  } = React.useContext(StoreContext);
+  const {
+    lobbyId: [lobbyID, setLobbyId],
+  } = React.useContext(StoreContext);
+  const baseUrl = "https://wrivia-backend.herokuapp.com/";
+  const calculateScores = () => {
+    let points = 0;
+    for (let i = 1; i <= data.length; i++) {
+      if (refInputs.current[i] == i.toString()) {
+        points++;
+      }
+    }
+    setScore(points);
+    axios
+      .post(baseUrl + "api/score/save", {
+        id: lobbyID,
+        name: name,
+        score: score,
+      })
+      .then((res) => {
+        navigation.navigate("Title");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const {
     displayQuestion: [displayQuestion, setdisplayQuestion],
   } = React.useContext(StoreContext);
@@ -73,6 +108,8 @@ const Matching = () => {
                     paddingHorizontal: -25,
                   }}
                   placeholder="Enter answer number 1, 2, 3.."
+                  onChangeText={(value) => setInputValue(element.id, value)}
+                  value={refInputs.current[element.id]}
                 />
               </View>
             );
@@ -108,6 +145,7 @@ const Matching = () => {
             backgroundColor: "#FF4F63",
           }}
           titleStyle={{ fontWeight: "bold", fontSize: 18 }}
+          onPress={() => calculateScores()}
         />
       </View>
     </View>
