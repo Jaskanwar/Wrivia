@@ -15,9 +15,7 @@ export default function Answering({navigation}) {
     cluster: "us2",
   });
   var channel = pusher.subscribe("Wrivia");
-  const {
-    gameData: {gameData, setGameData},
-  } = React.useContext(StoreContext);
+  
   const baseUrl = "https://wrivia-backend.herokuapp.com/";
 
   useEffect(() => {
@@ -28,7 +26,6 @@ export default function Answering({navigation}) {
         })
         .then((res) => {
           if(res.data.scoring === true){
-        getGameData()
             navigation.navigate("chooseAnswer");
           }
         })
@@ -37,21 +34,7 @@ export default function Answering({navigation}) {
         });
     }
   },[]);
-  function getGameData() {
-    axios
-      .post(baseUrl + "api/score/score", {
-        id: lobbyID,
-        name: name,
-        score: 0,
-      })
-      .then((res) => {
-        
-        setGameData(res.data.scores.player);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
+  
 
   channel.bind("Answered_" +lobbyID, function (data) {
     if (data.scoring === true) {
