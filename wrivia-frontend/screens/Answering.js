@@ -33,7 +33,6 @@ export default function Answering({navigation}) {
         });
     }
   },[]);
-  
   channel.bind("Answered_" +lobbyID, function (data) {
     if (data.scoring === true) {
       navigation.navigate("chooseAnswer");
