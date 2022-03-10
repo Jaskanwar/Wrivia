@@ -32,6 +32,10 @@ const gameDataSchema = new mongoose.Schema({
         host:{
             type: Boolean,
             default: false
+        },
+        isCorrect: {
+            type:Boolean,
+            default: false
         }
     }]
 });
