@@ -12,17 +12,6 @@ export default function Gameover() {
         }}
         source={require("../assets/gameover.png")}
       />
-      <Text
-        style={{
-          color: "white",
-          fontSize: 20,
-          fontWeight: "400",
-          position: "absolute",
-          paddingTop: 400,
-        }}
-      >
-        Your score is 100 points!
-      </Text>
     </View>
   );
 }

@@ -44,8 +44,6 @@ export default function CorrectAnswer({ navigation }) {
   const [check, setCheck] = useState(false);
   const refInputs = useRef([check]);
   const setInputValue = (index) => {
-    console.log(index);
-
     const inputs = refInputs.current;
     inputs[index] = !inputs[index];
     setCheck(inputs[index]);
@@ -91,7 +89,8 @@ export default function CorrectAnswer({ navigation }) {
         });
     }
     axios.post(baseUrl + "api/lobby/changeScreen", {
-      id: lobbyID
+      id: lobbyID,
+      changeNum: 1
     }).then((res) =>{
       if (name === whoAskedQ) {
         navigation.navigate("Matching");
@@ -101,7 +100,7 @@ export default function CorrectAnswer({ navigation }) {
     })
   }
 
-  channel.bind("change_" +lobbyID, function (data) {
+  channel.bind("change_" +lobbyID+1, function (data) {
     if (data) {
       if(name === whoAskedQ){
         navigation.navigate("Matching")

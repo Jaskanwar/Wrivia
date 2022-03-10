@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, Image, ScrollView } from "react-native";
 import { Button, Input, CheckBox } from "react-native-elements";
 import { StoreContext } from "../utils/store";
 const axios = require("axios");
+const Pusher = require("pusher-js");
 
 const Matching = ({ navigation }) => {
   const [textValue, setTextValue] = useState("");
@@ -23,8 +24,15 @@ const Matching = ({ navigation }) => {
   const {
     lobbyId: [lobbyID, setLobbyId],
   } = React.useContext(StoreContext);
-  const baseUrl = "https://wrivia-backend.herokuapp.com/";
-  let i = 0;
+  //const baseUrl = "https://wrivia-backend.herokuapp.com/";
+  const baseUrl = "http://192.168.0.41:5000/";
+
+  const pusher = new Pusher("62107c41ec95d815dfa2", {
+    cluster: "us2",
+  });
+  var channel = pusher.subscribe("Wrivia");
+
+  let i = 1;
   useEffect(() => {
     axios
       .post(baseUrl + "api/score/score", {
@@ -32,19 +40,19 @@ const Matching = ({ navigation }) => {
       })
       .then((res) => {
         setGameData(res.data.scores.player);
-        setData(gameData)
-        data.map((ids) => {
-          ids.id = i++
-        })
-        setData(data)
+        gameData.map((ids) => {
+          ids.id = i++;
+        });
+        setGameData(gameData);
       })
       .catch((err) => {
         console.log(err);
       });
-  }, [])
+  }, []);
+
   const calculateScores = () => {
     let points = 0;
-    for (let i = 1; i <= data.length; i++) {
+    for (let i = 1; i <= gameData.length; i++) {
       if (refInputs.current[i] == i.toString()) {
         points++;
       }
@@ -57,12 +65,30 @@ const Matching = ({ navigation }) => {
         score: score,
       })
       .then((res) => {
-        //navigation.navigate("");
+        console.log("Updated");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    axios
+      .post(baseUrl + "api/lobby/changeScreen", {
+        id: lobbyID,
+        changeNum: 2
+      })
+      .then((res) => {
+        navigation.navigate("Score");
       })
       .catch((err) => {
         console.log(err);
       });
   };
+
+  channel.bind("change_" + lobbyID+2, function (data) {
+    if (data) {
+      navigation.navigate("Score");
+    }
+  });
+
   const {
     displayQuestion: [displayQuestion, setdisplayQuestion],
   } = React.useContext(StoreContext);
@@ -82,7 +108,7 @@ const Matching = ({ navigation }) => {
           </Text>
         </View>
         <View style={{ paddingBottom: 30 }}>
-          {data.map((element) => {
+          {gameData.map((element) => {
             return (
               <Text
                 key={element.id}
@@ -98,7 +124,7 @@ const Matching = ({ navigation }) => {
           })}
         </View>
         <View style={{ paddingBottom: 30 }}>
-          {data.map((element) => {
+          {gameData.map((element) => {
             return (
               <View key={element.id + "cell"}>
                 <Text

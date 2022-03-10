@@ -4,8 +4,9 @@ import { Button, LinearProgress } from "react-native-elements";
 import { StoreContext } from "../utils/store";
 const axios = require("axios");
 const Pusher = require("pusher-js");
+import { useIsFocused, useFocusEffect } from '@react-navigation/native';
 
-export default function Shuffling({navigation}) {
+export default function Shuffling({ navigation }) {
   const {
     lobbyId: [lobbyID, setLobbyId],
   } = React.useContext(StoreContext);
@@ -16,47 +17,48 @@ export default function Shuffling({navigation}) {
     startRound: [startRound, setStartRound],
   } = React.useContext(StoreContext);
   const {
-    playerQuestion: [playerQuestion, setPlayerQuestion]
+    playerQuestion: [playerQuestion, setPlayerQuestion],
   } = React.useContext(StoreContext);
   const {
     displayQuestion: [displayQuestion, setdisplayQuestion],
   } = React.useContext(StoreContext);
   const {
-    whoAskedQ: [whoAskedQ, setWhoAsked]
+    whoAskedQ: [whoAskedQ, setWhoAsked],
   } = React.useContext(StoreContext);
   const pusher = new Pusher("62107c41ec95d815dfa2", {
     cluster: "us2",
   });
   var channel = pusher.subscribe("Wrivia");
-  const baseUrl = "https://wrivia-backend.herokuapp.com/";
+  //const baseUrl = "https://wrivia-backend.herokuapp.com/";
+  const baseUrl = "http://192.168.0.41:5000/";
+  const isFocused = useIsFocused();
 
   useEffect(() => {
-    if (startRound) {
+    if (startRound && isFocused) {
       axios
         .post(baseUrl + "api/question/question", {
           id: lobbyID,
           name: playerQuestion[0],
         })
         .then((res) => {
-          if(res.data.next){
+          if (res.data.next) {
             setWhoAsked(res.data.player.player[0].name);
             setdisplayQuestion(res.data.player.player[0].question);
             navigation.navigate("Answer");
           }
-          setPlayerQuestion(playerQuestion.shift());
+          playerQuestion.shift()
+          setPlayerQuestion(playerQuestion);
         })
         .catch((err) => {
           console.log(err);
         });
     }
-  },[]);
+  }, [isFocused]);
 
-  channel.bind("Question_" +lobbyID, function (data) {
-    if (data) {
-      setWhoAsked(data.player[0].name);
-      setdisplayQuestion(data.player[0].question);
-      navigation.navigate("Answer");
-    }
+  channel.bind("Question_" + lobbyID, function (data) {
+    setWhoAsked(data.player[0].name);
+    setdisplayQuestion(data.player[0].question);
+    navigation.navigate("Answer");
   });
 
   return (

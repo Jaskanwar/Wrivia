@@ -81,9 +81,9 @@ router.post("/start", async (req, res) => {
 });
 
 router.post("/changeScreen", async (req, res) => {
-  const { id } = req.body;
+  const { id, changeNum } = req.body;
   try {
-    pusher.trigger("Wrivia", "change_"+id, {change: true});
+    pusher.trigger("Wrivia", "change_"+id+changeNum, {change: true});
     res.status(200).send();
   } catch (error) {
     console.log(error);
