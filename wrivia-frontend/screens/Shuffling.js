@@ -21,7 +21,9 @@ export default function Shuffling({navigation}) {
   const {
     displayQuestion: [displayQuestion, setdisplayQuestion],
   } = React.useContext(StoreContext);
-
+  const {
+    whoAskedQ: [whoAskedQ, setWhoAsked]
+  } = React.useContext(StoreContext);
   const pusher = new Pusher("62107c41ec95d815dfa2", {
     cluster: "us2",
   });
@@ -37,6 +39,7 @@ export default function Shuffling({navigation}) {
         })
         .then((res) => {
           if(res.data.next){
+            setWhoAsked(data.player.player[0].name);
             setdisplayQuestion(res.data.player.player[0].question);
             navigation.navigate("Answer");
           }
@@ -50,6 +53,7 @@ export default function Shuffling({navigation}) {
 
   channel.bind("Question_" +lobbyID, function (data) {
     if (data) {
+      setWhoAsked(data.player.player[0].name);
       setdisplayQuestion(data.player[0].question);
       navigation.navigate("Answer");
     }

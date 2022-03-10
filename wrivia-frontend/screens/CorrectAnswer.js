@@ -4,6 +4,7 @@ import { Button, Input, CheckBox } from "react-native-elements";
 const axios = require("axios");
 const baseUrl = "https://wrivia-backend.herokuapp.com/";
 import { StoreContext } from "../utils/store";
+const Pusher = require("pusher-js");
 
 export default function CorrectAnswer({ navigation }) {
   const {
@@ -15,8 +16,14 @@ export default function CorrectAnswer({ navigation }) {
   const {
     lobbyId: [lobbyID, setLobbyId],
   } = React.useContext(StoreContext);
+  const {
+    whoAskedQ: [whoAskedQ, setWhoAsked],
+  } = React.useContext(StoreContext);
   //my assumption is that the above is mock data to display on the screen
-
+  const pusher = new Pusher("62107c41ec95d815dfa2", {
+    cluster: "us2",
+  });
+  var channel = pusher.subscribe("Wrivia");
   useEffect(() => {
     axios
       .post(baseUrl + "api/score/score", {
@@ -54,7 +61,6 @@ export default function CorrectAnswer({ navigation }) {
   }
 
   arr.map((element, id) => {
-
     checks.push(
       <CheckBox
         center
@@ -72,6 +78,23 @@ export default function CorrectAnswer({ navigation }) {
         console.log(id);
       }
     });
+    for (let i = 0; i < arr.length; i++) {
+      axios
+        .post(baseUrl + "api/score/save", {
+          id: lobbyID,
+          name: arr[i].name,
+          score: 1,
+        })
+        .then((res) => {
+          console.log("Updated");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+    if (name === whoAskedQ) {
+      //navigation.navigate("Question");
+    }
   }
 
   return (
@@ -87,19 +110,20 @@ export default function CorrectAnswer({ navigation }) {
         as incorrect.
       </Text>
       {checks}
-
-      <Button
-        title={"Submit"}
-        onPress={submitCorrectAnswers}
-        containerStyle={{
-          width: 200,
-          marginHorizontal: 50,
-          marginVertical: 10,
-        }}
-        buttonStyle={{
-          backgroundColor: "#49B5FF",
-        }}
-      />
+      {name === whoAskedQ && (
+        <Button
+          title={"Submit"}
+          onPress={submitCorrectAnswers}
+          containerStyle={{
+            width: 200,
+            marginHorizontal: 50,
+            marginVertical: 10,
+          }}
+          buttonStyle={{
+            backgroundColor: "#49B5FF",
+          }}
+        />
+      )}
     </View>
   );
 }

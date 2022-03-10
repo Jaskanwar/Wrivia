@@ -11,6 +11,7 @@ export default ({ children }) => {
   const [playerQuestion, setPlayerQuestion] = React.useState([]);
   const [answer, setAnswer] = React.useState("");
   const [gameData, setGameData] = React.useState([]);
+  const [whoAskedQ, setWhoAsked] = React.useState([]);
 
   const store = {
     lobbyId: [lobbyID, setLobbyId],
@@ -22,7 +23,8 @@ export default ({ children }) => {
     displayQuestion: [displayQuestion, setdisplayQuestion],
     playerQuestion: [playerQuestion, setPlayerQuestion],
     answer: [answer, setAnswer],
-    gameData :[gameData,setGameData]
+    gameData :[gameData,setGameData],
+    whoAskedQ: [whoAskedQ, setWhoAsked]
   };
   return (
     <StoreContext.Provider value={store}>{children}</StoreContext.Provider>
