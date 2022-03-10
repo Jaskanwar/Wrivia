@@ -2,7 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
 import { Button, Input, CheckBox } from "react-native-elements";
 const axios = require("axios");
-const baseUrl = "https://wrivia-backend.herokuapp.com/";
+//const baseUrl = "https://wrivia-backend.herokuapp.com/";
+const baseUrl = "http://192.168.0.41:5000/"
 import { StoreContext } from "../utils/store";
 const Pusher = require("pusher-js");
 
@@ -19,7 +20,7 @@ export default function CorrectAnswer({ navigation }) {
   const {
     whoAskedQ: [whoAskedQ, setWhoAsked],
   } = React.useContext(StoreContext);
-  //my assumption is that the above is mock data to display on the screen
+
   const pusher = new Pusher("62107c41ec95d815dfa2", {
     cluster: "us2",
   });
@@ -28,11 +29,8 @@ export default function CorrectAnswer({ navigation }) {
     axios
       .post(baseUrl + "api/score/score", {
         id: lobbyID,
-        name: name,
-        score: 0,
       })
       .then((res) => {
-        console.log(res.data.scores.player);
         setGameData(res.data.scores.player);
         for (var ac = 0; ac < res.data.scores.player; ac++) {}
       })
@@ -64,6 +62,7 @@ export default function CorrectAnswer({ navigation }) {
     checks.push(
       <CheckBox
         center
+        key={id}
         title={element.answer}
         checked={refInputs.current[id]}
         onPress={() => setInputValue(id)}
@@ -75,7 +74,6 @@ export default function CorrectAnswer({ navigation }) {
     arr.map((element, id) => {
       if (refInputs.current[id]) {
         element.isCorrect = true;
-        console.log(id);
       }
     });
     for (let i = 0; i < arr.length; i++) {
@@ -92,10 +90,26 @@ export default function CorrectAnswer({ navigation }) {
           console.log(err);
         });
     }
-    if (name === whoAskedQ) {
-      //navigation.navigate("Question");
-    }
+    axios.post(baseUrl + "api/lobby/changeScreen", {
+      id: lobbyID
+    }).then((res) =>{
+      if (name === whoAskedQ) {
+        navigation.navigate("Matching");
+      }
+    }).catch((err)=>{
+      console.log(err)
+    })
   }
+
+  channel.bind("change_" +lobbyID, function (data) {
+    if (data) {
+      if(name === whoAskedQ){
+        navigation.navigate("Matching")
+      }else{
+        navigation.navigate("Guessing")
+      }
+    }
+  });
 
   return (
     <View style={styles.container}>

@@ -39,7 +39,7 @@ export default function Shuffling({navigation}) {
         })
         .then((res) => {
           if(res.data.next){
-            setWhoAsked(data.player.player[0].name);
+            setWhoAsked(res.data.player.player[0].name);
             setdisplayQuestion(res.data.player.player[0].question);
             navigation.navigate("Answer");
           }
@@ -53,7 +53,7 @@ export default function Shuffling({navigation}) {
 
   channel.bind("Question_" +lobbyID, function (data) {
     if (data) {
-      setWhoAsked(data.player.player[0].name);
+      setWhoAsked(data.player[0].name);
       setdisplayQuestion(data.player[0].question);
       navigation.navigate("Answer");
     }
