@@ -10,6 +10,7 @@ export default function Loading() {
           flex: 1,
           width: 600,
           resizeMode: "contain",
+          paddingHorizontal: 20,
         }}
         source={require("../assets/loading.png")}
       />

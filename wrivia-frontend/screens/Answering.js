@@ -4,7 +4,7 @@ import { StoreContext } from "../utils/store";
 const axios = require("axios");
 const Pusher = require("pusher-js");
 
-export default function Answering({navigation}) {
+export default function Answering({ navigation }) {
   const {
     startRound: [startRound, setStartRound],
   } = React.useContext(StoreContext);
@@ -24,7 +24,7 @@ export default function Answering({navigation}) {
           id: lobbyID,
         })
         .then((res) => {
-          if(res.data.scoring === true){
+          if (res.data.scoring === true) {
             navigation.navigate("chooseAnswer");
           }
         })
@@ -32,8 +32,8 @@ export default function Answering({navigation}) {
           console.log(err);
         });
     }
-  },[]);
-  channel.bind("Answered_" +lobbyID, function (data) {
+  }, []);
+  channel.bind("Answered_" + lobbyID, function (data) {
     if (data.scoring === true) {
       navigation.navigate("chooseAnswer");
     }
@@ -44,8 +44,9 @@ export default function Answering({navigation}) {
       <Image
         style={{
           flex: 1,
-          width: 600,
+          width: 500,
           resizeMode: "contain",
+          paddingHorizontal: 20,
         }}
         source={require("../assets/answering.png")}
       />

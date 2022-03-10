@@ -73,7 +73,7 @@ const Matching = ({ navigation }) => {
     axios
       .post(baseUrl + "api/lobby/changeScreen", {
         id: lobbyID,
-        changeNum: 2
+        changeNum: 2,
       })
       .then((res) => {
         navigation.navigate("Score");
@@ -83,7 +83,7 @@ const Matching = ({ navigation }) => {
       });
   };
 
-  channel.bind("change_" + lobbyID+2, function (data) {
+  channel.bind("change_" + lobbyID + 2, function (data) {
     if (data) {
       navigation.navigate("Score");
     }
@@ -183,7 +183,7 @@ const Matching = ({ navigation }) => {
             marginBottom: -150,
           }}
           buttonStyle={{
-            backgroundColor: "#FF4F63",
+            backgroundColor: "#49B5FF",
           }}
           titleStyle={{ fontWeight: "bold", fontSize: 18 }}
           onPress={() => calculateScores()}

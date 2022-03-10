@@ -4,7 +4,7 @@ import { Button, LinearProgress } from "react-native-elements";
 import { StoreContext } from "../utils/store";
 const axios = require("axios");
 const Pusher = require("pusher-js");
-import { useIsFocused, useFocusEffect } from '@react-navigation/native';
+import { useIsFocused, useFocusEffect } from "@react-navigation/native";
 
 export default function Shuffling({ navigation }) {
   const {
@@ -46,7 +46,7 @@ export default function Shuffling({ navigation }) {
             setdisplayQuestion(res.data.player.player[0].question);
             navigation.navigate("Answer");
           }
-          playerQuestion.shift()
+          playerQuestion.shift();
           setPlayerQuestion(playerQuestion);
         })
         .catch((err) => {
@@ -66,8 +66,9 @@ export default function Shuffling({ navigation }) {
       <Image
         style={{
           flex: 1,
-          width: 600,
+          width: 500,
           resizeMode: "contain",
+          paddingHorizontal: 20,
         }}
         source={require("../assets/shuffling.png")}
       />
