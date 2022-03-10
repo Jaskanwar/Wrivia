@@ -9,7 +9,6 @@ const Matching = ({ navigation }) => {
   const [textValue, setTextValue] = useState("");
   const [score, setScore] = useState(0);
   const refInputs = useRef([textValue]);
-  const [data, setData] = useState([]);
   const {
     gameData: [gameData, setGameData],
   } = React.useContext(StoreContext);
@@ -39,11 +38,15 @@ const Matching = ({ navigation }) => {
         id: lobbyID,
       })
       .then((res) => {
-        setGameData(res.data.scores.player);
-        gameData.map((ids) => {
+        let data = res.data.scores.player;
+        data.map((ids) => {
           ids.id = i++;
         });
-        setGameData(gameData);
+        let notCorrect = data.filter(el => el.isCorrect === false)
+        console.log(notCorrect, "Hello")
+        setGameData(notCorrect);
+        //setGameData((res.data.scores.player));
+        //setGameData(gameData);
       })
       .catch((err) => {
         console.log(err);

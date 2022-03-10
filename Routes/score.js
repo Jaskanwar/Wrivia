@@ -9,7 +9,7 @@ router.post("/save", async (req, res) => {
     try {
       const lobby = await gameData.findOneAndUpdate(
         where,
-        { $set: { "player.$.score": score,  "player.$.score": true} },
+        { $set: { "player.$.score": score,  "player.$.isCorrect": true} },
         {
           new: true,
         }
