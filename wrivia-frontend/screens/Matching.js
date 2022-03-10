@@ -24,8 +24,8 @@ const Matching = ({ navigation }) => {
   const {
     lobbyId: [lobbyID, setLobbyId],
   } = React.useContext(StoreContext);
-  //const baseUrl = "https://wrivia-backend.herokuapp.com/";
-  const baseUrl = "http://192.168.0.41:5000/";
+  const baseUrl = "https://wrivia-backend.herokuapp.com/";
+  //const baseUrl = "http://192.168.0.41:5000/";
 
   const pusher = new Pusher("62107c41ec95d815dfa2", {
     cluster: "us2",

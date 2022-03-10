@@ -29,8 +29,8 @@ export default function Shuffling({ navigation }) {
     cluster: "us2",
   });
   var channel = pusher.subscribe("Wrivia");
-  //const baseUrl = "https://wrivia-backend.herokuapp.com/";
-  const baseUrl = "http://192.168.0.41:5000/";
+  const baseUrl = "https://wrivia-backend.herokuapp.com/";
+  //const baseUrl = "http://192.168.0.41:5000/";
   const isFocused = useIsFocused();
 
   useEffect(() => {

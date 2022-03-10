@@ -2,8 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
 import { Button, Input, CheckBox } from "react-native-elements";
 const axios = require("axios");
-//const baseUrl = "https://wrivia-backend.herokuapp.com/";
-const baseUrl = "http://192.168.0.41:5000/"
+const baseUrl = "https://wrivia-backend.herokuapp.com/";
+//const baseUrl = "http://192.168.0.41:5000/"
 import { StoreContext } from "../utils/store";
 const Pusher = require("pusher-js");
 
