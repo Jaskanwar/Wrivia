@@ -77,7 +77,6 @@ export default function CorrectAnswer({ navigation }) {
       }
     });
     arr = arr.filter(el => el.isCorrect === true)
-    console.log(arr, "Paarth")
     for (let i = 0; i < arr.length; i++) {
       axios
         .post(baseUrl + "api/score/save", {
@@ -99,6 +98,7 @@ export default function CorrectAnswer({ navigation }) {
       })
       .then((res) => {
         if (name === whoAskedQ) {
+          pusher.disconnect();
           navigation.navigate("Matching");
         }
       })
@@ -108,6 +108,7 @@ export default function CorrectAnswer({ navigation }) {
   }
 
   channel.bind("change_" + lobbyID + 1, function (data) {
+    pusher.disconnect();
     if (data) {
       if (name === whoAskedQ) {
         navigation.navigate("Matching");

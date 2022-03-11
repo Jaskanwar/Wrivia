@@ -42,6 +42,7 @@ export default function Shuffling({ navigation }) {
         })
         .then((res) => {
           if (res.data.next) {
+            pusher.disconnect();
             setWhoAsked(res.data.player.player[0].name);
             setdisplayQuestion(res.data.player.player[0].question);
             navigation.navigate("Answer");
@@ -56,6 +57,7 @@ export default function Shuffling({ navigation }) {
   }, [isFocused]);
 
   channel.bind("Question_" + lobbyID, function (data) {
+    pusher.disconnect();
     setWhoAsked(data.player[0].name);
     setdisplayQuestion(data.player[0].question);
     navigation.navigate("Answer");

@@ -12,6 +12,7 @@ export default function Guessing({ navigation }) {
   });
   var channel = pusher.subscribe("Wrivia");
   channel.bind("change_" + lobbyID + 2, function (data) {
+    pusher.disconnect();
     if (data) {
       navigation.navigate("Score");
     }

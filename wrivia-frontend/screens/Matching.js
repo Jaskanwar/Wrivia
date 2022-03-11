@@ -68,6 +68,7 @@ const Matching = ({ navigation }) => {
         score: score,
       })
       .then((res) => {
+        pusher.disconnect();
         console.log("Updated");
       })
       .catch((err) => {
@@ -79,6 +80,7 @@ const Matching = ({ navigation }) => {
         changeNum: 2,
       })
       .then((res) => {
+        pusher.disconnect();
         navigation.navigate("Score");
       })
       .catch((err) => {
@@ -87,6 +89,7 @@ const Matching = ({ navigation }) => {
   };
 
   channel.bind("change_" + lobbyID + 2, function (data) {
+    pusher.disconnect();
     if (data) {
       navigation.navigate("Score");
     }

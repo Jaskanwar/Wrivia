@@ -34,6 +34,7 @@ export default function Answering({ navigation }) {
     }
   }, []);
   channel.bind("Answered_" + lobbyID, function (data) {
+    pusher.disconnect();
     if (data.scoring === true) {
       navigation.navigate("chooseAnswer");
     }

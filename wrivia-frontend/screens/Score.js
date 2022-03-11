@@ -45,6 +45,7 @@ export default function Score({ navigation }) {
   }, []);
 
   channel.bind("change_" + lobbyID + 3, function (data) {
+    pusher.disconnect();
     if (playerQuestion.length === 0) {
       navigation.navigate("Gameover");
     } else {
@@ -59,6 +60,7 @@ export default function Score({ navigation }) {
           changeNum: 3,
         })
         .then((res) => {
+          pusher.disconnect();
           navigation.navigate("Gameover");
         })
         .catch((err) => {
@@ -71,6 +73,7 @@ export default function Score({ navigation }) {
           changeNum: 3,
         })
         .then((res) => {
+          pusher.disconnect();
           navigation.navigate("Shuffling");
         })
         .catch((err) => {

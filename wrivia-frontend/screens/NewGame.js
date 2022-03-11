@@ -30,6 +30,7 @@ export default function NewGame({ navigation }) {
   var channel = pusher.subscribe("Wrivia");
   let newPlayerList = [];
   channel.bind(lobbyID, function (data) {
+    pusher.disconnect();
     newPlayerList = data.lobby.player.map((x) => x.name);
     setPlayerList(newPlayerList);
     setPlayerQuestion(newPlayerList);
@@ -58,6 +59,7 @@ export default function NewGame({ navigation }) {
       });
   }
   channel.bind("startGame_" + lobbyID, function (data) {
+    pusher.disconnect();
     if (data) {
       navigation.navigate("Question");
     }
