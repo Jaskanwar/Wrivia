@@ -140,7 +140,7 @@ export default function CorrectAnswer({ navigation }) {
             width: 300,
             marginHorizontal: 50,
             marginVertical: 10,
-            paddingTop: 500,
+            paddingTop: 400,
           }}
           buttonStyle={{
             backgroundColor: "#49B5FF",
