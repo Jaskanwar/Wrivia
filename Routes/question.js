@@ -74,7 +74,7 @@ router.post("/answer", async (req, res) => {
   try {
     const lobby = await gameData.findOneAndUpdate(
       where,
-      { $set: { "player.$.answer": answer } },
+      { $set: { "player.$.answer": answer, "player.$.isCorrect":false } },
       {
         new: true,
       }

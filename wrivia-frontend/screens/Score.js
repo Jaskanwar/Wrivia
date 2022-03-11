@@ -38,16 +38,12 @@ export default function Score({ navigation }) {
       })
       .then((res) => {
         setGameData(res.data.scores.player);
-        gameData.map((ids) => {
-          ids.id = i++;
-        });
-        setGameData(gameData);
       })
       .catch((err) => {
         console.log(err);
       });
   }, []);
-  //NED TO DO THIS SOMEHOW setPlayerQuestion(playerQuestion.shift());
+
   channel.bind("change_" + lobbyID + 3, function (data) {
     if (playerQuestion.length === 0) {
       navigation.navigate("Gameover");
@@ -82,50 +78,8 @@ export default function Score({ navigation }) {
         });
     }
   }
-  /*
-  channel.bind("change_" + lobbyID + 3, function (data) {
-      navigation.navigate("Gameover");
-  });
-
-  channel.bind("newQuestion_" + lobbyID, function (data) {
-    setWhoAsked(data.player[0].name);
-    setdisplayQuestion(data.player[0].question);
-    navigation.navigate("Answer");
-  });
-  
-
-  function nextRound() {
-    if (playerQuestion.length === 0) {
-      axios
-        .post(baseUrl + "api/lobby/changeScreen", {
-          id: lobbyID,
-          changeNum: 3,
-        })
-        .then((res) => {
-          navigation.navigate("Gameover");
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    } else {
-      axios
-        .post(baseUrl + "api/question/newQuestion", {
-          id: lobbyID,
-          name: playerQuestion[0],
-        })
-        .then((res) => {
-          setWhoAsked(res.data.player.player[0].name);
-          setdisplayQuestion(res.data.player.player[0].question);
-          navigation.navigate("Answer");
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-  }
-  */
-
-  gameData.sort((a, b) => (a.score > b.score ? 1 : b.score > a.score ? -1 : 0));
+  let gameDataSort = gameData.sort((a, b) => (b.score - a.score))
+  setGameData(gameDataSort);
   return (
     <View style={styles.container}>
       <Image
@@ -144,8 +98,8 @@ export default function Score({ navigation }) {
       >
         {gameData.map((element, index) => {
           return (
-            <View>
-              <Text style={styles.text}>
+            <View key={Math.random()*101}>
+              <Text style={styles.text} key={Math.random()}>
                 {index + 1 + ". " + element.name + ": " + element.score}
               </Text>
             </View>

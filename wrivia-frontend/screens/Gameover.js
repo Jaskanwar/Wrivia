@@ -1,7 +1,13 @@
 import React, { useEffect } from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
 
-export default function Gameover() {
+export default function Gameover({navigation}) {
+  useEffect(() => {
+    setTimeout(() => {
+      setStartRound(true);
+      navigation.navigate("Title");
+    }, 5000);
+  }, []);
   return (
     <View style={styles.container}>
       <Image

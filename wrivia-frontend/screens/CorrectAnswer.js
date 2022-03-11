@@ -2,8 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
 import { Button, Input, CheckBox } from "react-native-elements";
 const axios = require("axios");
-const baseUrl = "https://wrivia-backend.herokuapp.com/";
-//const baseUrl = "http://192.168.0.41:5000/"
+//const baseUrl = "https://wrivia-backend.herokuapp.com/";
+const baseUrl = "http://192.168.0.213:3000/";
 import { StoreContext } from "../utils/store";
 const Pusher = require("pusher-js");
 
@@ -72,8 +72,12 @@ export default function CorrectAnswer({ navigation }) {
     arr.map((element, id) => {
       if (refInputs.current[id]) {
         element.isCorrect = true;
+      }else{
+        element.isCorrect = false;
       }
     });
+    arr = arr.filter(el => el.isCorrect === true)
+    console.log(arr, "Paarth")
     for (let i = 0; i < arr.length; i++) {
       axios
         .post(baseUrl + "api/score/save", {

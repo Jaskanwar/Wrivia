@@ -9,7 +9,7 @@ router.post("/save", async (req, res) => {
     try {
       const lobby = await gameData.findOneAndUpdate(
         where,
-        { $set: { "player.$.score": score,  "player.$.isCorrect": true} },
+        { $inc: { "player.$.score": score}, $set: {"player.$.isCorrect": true} },
         {
           new: true,
         }
@@ -20,7 +20,7 @@ router.post("/save", async (req, res) => {
       res.status(500).send("Server error");
     }
   });
-  
+
   router.post("/score", async (req, res) => {
     const { id } = req.body;
     const where = { lobbyId: id };
