@@ -13,8 +13,9 @@ export default function Gameover({navigation}) {
       <Image
         style={{
           flex: 1,
-          width: 600,
+          width: 500,
           resizeMode: "contain",
+          paddingHorizontal: 20,
         }}
         source={require("../assets/gameover.png")}
       />

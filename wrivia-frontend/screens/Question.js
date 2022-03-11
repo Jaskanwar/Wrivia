@@ -57,6 +57,7 @@ export default function Question({ navigation }) {
           color: "white",
           fontSize: 30,
           fontWeight: "600",
+          marginTop: 150,
         }}
       >
         Please enter your question
@@ -64,28 +65,40 @@ export default function Question({ navigation }) {
       <Input
         placeholder="Enter question"
         onChangeText={(text) => setQuestion(text)}
+        disabledInputStyle={{ borderColor: "white" }}
+        labelStyle={{ borderColor: "white" }}
+        containerStyle={{
+          paddingTop: 10,
+          color: "white",
+          paddingHorizontal: 25,
+        }}
+        inputStyle={{
+          color: "white",
+        }}
       />
+      <Text
+        style={{
+          color: "white",
+          fontSize: 20,
+          fontWeight: "600",
+          marginTop: 450,
+        }}
+      >
+        Time Left: {timer}
+      </Text>
       <Button
         title={"Submit"}
         containerStyle={{
-          width: 200,
+          width: 300,
           marginHorizontal: 50,
           marginVertical: 10,
         }}
         buttonStyle={{
           backgroundColor: "#49B5FF",
         }}
+        titleStyle={{ fontWeight: "bold", fontSize: 18 }}
         onPress={() => enterQuestion()}
       />
-      <Text
-        style={{
-          color: "white",
-          fontSize: 30,
-          fontWeight: "600",
-        }}
-      >
-        Time Left: {timer}
-      </Text>
     </View>
   );
 }

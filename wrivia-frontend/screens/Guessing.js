@@ -3,8 +3,7 @@ import { StyleSheet, Text, View, Image } from "react-native";
 import { StoreContext } from "../utils/store";
 const Pusher = require("pusher-js");
 
-
-export default function Guessing({navigation}) {
+export default function Guessing({ navigation }) {
   const {
     lobbyId: [lobbyID, setLobbyId],
   } = React.useContext(StoreContext);
@@ -12,7 +11,7 @@ export default function Guessing({navigation}) {
     cluster: "us2",
   });
   var channel = pusher.subscribe("Wrivia");
-  channel.bind("change_" +lobbyID+2, function (data) {
+  channel.bind("change_" + lobbyID + 2, function (data) {
     if (data) {
       navigation.navigate("Score");
     }
@@ -24,6 +23,7 @@ export default function Guessing({navigation}) {
           flex: 1,
           width: 600,
           resizeMode: "contain",
+          paddingHorizontal: 20,
         }}
         source={require("../assets/guessing.png")}
       />

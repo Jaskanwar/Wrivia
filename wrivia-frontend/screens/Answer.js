@@ -4,8 +4,7 @@ import { Button, Input } from "react-native-elements";
 import { StoreContext } from "../utils/store";
 const axios = require("axios");
 
-
-export default function Answer({navigation}) {
+export default function Answer({ navigation }) {
   const {
     displayQuestion: [displayQuestion, setdisplayQuestion],
   } = React.useContext(StoreContext);
@@ -34,7 +33,6 @@ export default function Answer({navigation}) {
       });
   }
 
-
   return (
     <View style={styles.container}>
       <Text
@@ -42,6 +40,7 @@ export default function Answer({navigation}) {
           color: "white",
           fontSize: 40,
           fontWeight: "600",
+          marginTop: 100,
         }}
       >
         Question
@@ -51,6 +50,8 @@ export default function Answer({navigation}) {
           color: "white",
           fontSize: 30,
           fontWeight: "400",
+          paddingTop: 10,
+          paddingBottom: 60,
         }}
       >
         {displayQuestion}
@@ -60,24 +61,38 @@ export default function Answer({navigation}) {
           color: "white",
           fontSize: 20,
           fontWeight: "400",
+          paddingBottom: 10,
         }}
       >
         Please enter your answer
       </Text>
-      <Input placeholder="Enter Answer" 
+      <Input
+        placeholder="Enter Answer"
         onChangeText={(text) => setAnswer(text)}
+        disabledInputStyle={{ borderColor: "white" }}
+        labelStyle={{ borderColor: "white" }}
+        containerStyle={{
+          paddingTop: 10,
+          color: "white",
+          paddingHorizontal: 25,
+        }}
+        inputStyle={{
+          color: "white",
+        }}
       />
       <Button
         title={"Submit"}
         containerStyle={{
-          width: 200,
+          width: 300,
           marginHorizontal: 50,
           marginVertical: 10,
+          paddingTop: 400,
         }}
         buttonStyle={{
           backgroundColor: "#49B5FF",
         }}
-        onPress = {() => submitAnswer()}
+        titleStyle={{ fontWeight: "bold", fontSize: 18 }}
+        onPress={() => submitAnswer()}
       />
     </View>
   );

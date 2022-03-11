@@ -92,24 +92,27 @@ export default function CorrectAnswer({ navigation }) {
           console.log(err);
         });
     }
-    axios.post(baseUrl + "api/lobby/changeScreen", {
-      id: lobbyID,
-      changeNum: 1
-    }).then((res) =>{
-      if (name === whoAskedQ) {
-        navigation.navigate("Matching");
-      }
-    }).catch((err)=>{
-      console.log(err)
-    })
+    axios
+      .post(baseUrl + "api/lobby/changeScreen", {
+        id: lobbyID,
+        changeNum: 1,
+      })
+      .then((res) => {
+        if (name === whoAskedQ) {
+          navigation.navigate("Matching");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
-  channel.bind("change_" +lobbyID+1, function (data) {
+  channel.bind("change_" + lobbyID + 1, function (data) {
     if (data) {
-      if(name === whoAskedQ){
-        navigation.navigate("Matching")
-      }else{
-        navigation.navigate("Guessing")
+      if (name === whoAskedQ) {
+        navigation.navigate("Matching");
+      } else {
+        navigation.navigate("Guessing");
       }
     }
   });
@@ -120,7 +123,9 @@ export default function CorrectAnswer({ navigation }) {
         style={{
           color: "white",
           fontSize: 20,
-          fontWeight: "400",
+          fontWeight: "600",
+          marginTop: 80,
+          paddingBottom: 40,
         }}
       >
         Select all of the correct answers. The unchecked ones will be considered
@@ -132,13 +137,15 @@ export default function CorrectAnswer({ navigation }) {
           title={"Submit"}
           onPress={submitCorrectAnswers}
           containerStyle={{
-            width: 200,
+            width: 300,
             marginHorizontal: 50,
             marginVertical: 10,
+            paddingTop: 500,
           }}
           buttonStyle={{
             backgroundColor: "#49B5FF",
           }}
+          titleStyle={{ fontWeight: "bold", fontSize: 18 }}
         />
       )}
     </View>

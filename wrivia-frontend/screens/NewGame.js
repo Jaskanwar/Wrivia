@@ -21,7 +21,7 @@ export default function NewGame({ navigation }) {
     name: [name, setname],
   } = React.useContext(StoreContext);
   const {
-    playerQuestion: [playerQuestion, setPlayerQuestion]
+    playerQuestion: [playerQuestion, setPlayerQuestion],
   } = React.useContext(StoreContext);
 
   const pusher = new Pusher("62107c41ec95d815dfa2", {
@@ -50,7 +50,7 @@ export default function NewGame({ navigation }) {
     axios
       .post(baseUrl + "api/lobby/leave", { id: lobbyID, name: name })
       .then((res) => {
-        navigation.navigate("Title")
+        navigation.navigate("Title");
         console.log("Game left successfully");
       })
       .catch((err) => {
@@ -70,6 +70,7 @@ export default function NewGame({ navigation }) {
           color: "white",
           fontSize: 30,
           fontWeight: "600",
+          marginTop: -200,
         }}
       >
         Your Game Code is
@@ -79,45 +80,50 @@ export default function NewGame({ navigation }) {
           color: "#F2EE11",
           fontSize: 40,
           fontWeight: "600",
+          paddingTop: 20,
+          paddingBottom: 40,
         }}
       >
         {lobbyID}
       </Text>
       <Button
-        title={"Copy code"}
+        title={"Copy Code"}
         containerStyle={{
-          width: 200,
+          width: 300,
           marginHorizontal: 50,
           marginVertical: 10,
         }}
         buttonStyle={{
           backgroundColor: "#49B5FF",
         }}
+        titleStyle={{ fontWeight: "bold", fontSize: 18 }}
         onPress={() => Clipboard.setString(lobbyID)}
       />
       <Button
         title={"Leave Lobby"}
         containerStyle={{
-          width: 200,
+          width: 300,
           marginHorizontal: 50,
           marginVertical: 10,
         }}
         buttonStyle={{
           backgroundColor: "#49B5FF",
         }}
+        titleStyle={{ fontWeight: "bold", fontSize: 18 }}
         onPress={() => leaveGame()}
       />
       {isHost && (
         <Button
           title={"Start Game"}
           containerStyle={{
-            width: 200,
+            width: 300,
             marginHorizontal: 50,
             marginVertical: 10,
           }}
           buttonStyle={{
             backgroundColor: "#49B5FF",
           }}
+          titleStyle={{ fontWeight: "bold", fontSize: 18 }}
           onPress={() => startGame()}
         />
       )}
@@ -126,6 +132,8 @@ export default function NewGame({ navigation }) {
           color: "white",
           fontSize: 25,
           fontWeight: "600",
+          paddingTop: 40,
+          paddingBottom: 20,
         }}
       >
         Current Players
