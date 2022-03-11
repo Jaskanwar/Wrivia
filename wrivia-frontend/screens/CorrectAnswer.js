@@ -1,16 +1,119 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
 import { Button, Input, CheckBox } from "react-native-elements";
+const axios = require("axios");
+//const baseUrl = "https://wrivia-backend.herokuapp.com/";
+const baseUrl = "http://192.168.0.213:3000/";
+import { StoreContext } from "../utils/store";
+const Pusher = require("pusher-js");
 
-const CorrectAnswer = () => {
-  const arr = [
-    { id: 1, text: "answer1" },
-    { id: 2, text: "answer2" },
-    { id: 3, text: "answer3" },
-  ];
-  const [check0, setCheck0] = useState(false);
-  const [check1, setCheck1] = useState(false);
-  const [check2, setCheck2] = useState(false);
+export default function CorrectAnswer({ navigation }) {
+  const {
+    name: [name, setname],
+  } = React.useContext(StoreContext);
+  const {
+    gameData: [gameData, setGameData],
+  } = React.useContext(StoreContext);
+  const {
+    lobbyId: [lobbyID, setLobbyId],
+  } = React.useContext(StoreContext);
+  const {
+    whoAskedQ: [whoAskedQ, setWhoAsked],
+  } = React.useContext(StoreContext);
+
+  const pusher = new Pusher("62107c41ec95d815dfa2", {
+    cluster: "us2",
+  });
+  var channel = pusher.subscribe("Wrivia");
+  useEffect(() => {
+    axios
+      .post(baseUrl + "api/score/score", {
+        id: lobbyID,
+      })
+      .then((res) => {
+        setGameData(res.data.scores.player);
+        for (var ac = 0; ac < res.data.scores.player; ac++) {}
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  var checks = [];
+
+  const [check, setCheck] = useState(false);
+  const refInputs = useRef([check]);
+  const setInputValue = (index) => {
+    const inputs = refInputs.current;
+    inputs[index] = !inputs[index];
+    setCheck(inputs[index]);
+  };
+
+  var arr = [];
+  try {
+    arr = gameData;
+  } catch (e) {
+    console.log(e);
+  }
+
+  arr.map((element, id) => {
+    checks.push(
+      <CheckBox
+        center
+        key={id}
+        title={element.answer}
+        checked={refInputs.current[id]}
+        onPress={() => setInputValue(id)}
+      />
+    );
+  });
+
+  function submitCorrectAnswers() {
+    arr.map((element, id) => {
+      if (refInputs.current[id]) {
+        element.isCorrect = true;
+      }else{
+        element.isCorrect = false;
+      }
+    });
+    arr = arr.filter(el => el.isCorrect === true)
+    console.log(arr, "Paarth")
+    for (let i = 0; i < arr.length; i++) {
+      axios
+        .post(baseUrl + "api/score/save", {
+          id: lobbyID,
+          name: arr[i].name,
+          score: 1,
+        })
+        .then((res) => {
+          console.log("Updated");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+    axios.post(baseUrl + "api/lobby/changeScreen", {
+      id: lobbyID,
+      changeNum: 1
+    }).then((res) =>{
+      if (name === whoAskedQ) {
+        navigation.navigate("Matching");
+      }
+    }).catch((err)=>{
+      console.log(err)
+    })
+  }
+
+  channel.bind("change_" +lobbyID+1, function (data) {
+    if (data) {
+      if(name === whoAskedQ){
+        navigation.navigate("Matching")
+      }else{
+        navigation.navigate("Guessing")
+      }
+    }
+  });
+
   return (
     <View style={styles.container}>
       <Text
@@ -23,38 +126,24 @@ const CorrectAnswer = () => {
         Select all of the correct answers. The unchecked ones will be considered
         as incorrect.
       </Text>
-      <CheckBox
-        center
-        title={arr[0].text}
-        checked={check0}
-        onPress={() => setCheck0(!check0)}
-      />
-      <CheckBox
-        center
-        title={arr[1].text}
-        checked={check1}
-        onPress={() => setCheck1(!check1)}
-      />
-      <CheckBox
-        center
-        title={arr[2].text}
-        checked={check2}
-        onPress={() => setCheck2(!check2)}
-      />
-      <Button
-        title={"Submit"}
-        containerStyle={{
-          width: 200,
-          marginHorizontal: 50,
-          marginVertical: 10,
-        }}
-        buttonStyle={{
-          backgroundColor: "#49B5FF",
-        }}
-      />
+      {checks}
+      {name === whoAskedQ && (
+        <Button
+          title={"Submit"}
+          onPress={submitCorrectAnswers}
+          containerStyle={{
+            width: 200,
+            marginHorizontal: 50,
+            marginVertical: 10,
+          }}
+          buttonStyle={{
+            backgroundColor: "#49B5FF",
+          }}
+        />
+      )}
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -64,5 +153,3 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 });
-
-export default CorrectAnswer;

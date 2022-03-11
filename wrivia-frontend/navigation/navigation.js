@@ -13,6 +13,8 @@ import Guessing from "../screens/Guessing";
 import Answering from "../screens/Answering";
 import Gameover from "../screens/Gameover";
 import Instructions from "../screens/Instructions";
+import Matching from "../screens/Matching";
+import Score from "../screens/Score"
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
@@ -32,6 +34,10 @@ export default function Navigation() {
       <HomeStack.Screen name="Answer" component={Answer} />
       <HomeStack.Screen name="QuestionAnswered" component={Answering} />
       <HomeStack.Screen name="chooseAnswer" component={CorrectAnswer} />
+      <HomeStack.Screen name="Matching" component={Matching} />
+      <HomeStack.Screen name="Guessing" component={Guessing} />
+      <HomeStack.Screen name="Score" component={Score} />
+      <HomeStack.Screen name="Gameover" component={Gameover} />
     </HomeStack.Navigator>
   );
 }

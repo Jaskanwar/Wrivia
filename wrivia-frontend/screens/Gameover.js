@@ -1,7 +1,13 @@
 import React, { useEffect } from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
 
-export default function Gameover() {
+export default function Gameover({navigation}) {
+  useEffect(() => {
+    setTimeout(() => {
+      setStartRound(true);
+      navigation.navigate("Title");
+    }, 5000);
+  }, []);
   return (
     <View style={styles.container}>
       <Image
@@ -12,17 +18,6 @@ export default function Gameover() {
         }}
         source={require("../assets/gameover.png")}
       />
-      <Text
-        style={{
-          color: "white",
-          fontSize: 20,
-          fontWeight: "400",
-          position: "absolute",
-          paddingTop: 400,
-        }}
-      >
-        Your score is 100 points!
-      </Text>
     </View>
   );
 }

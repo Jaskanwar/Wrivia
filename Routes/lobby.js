@@ -72,8 +72,19 @@ router.post("/start", async (req, res) => {
       { startGame: start },
       { new: true }
     );
-    pusher.trigger("Wrivia", "startGame_"+id, lobby.startGame);
+    pusher.trigger("Wrivia", "startGame_" + id, lobby.startGame);
     res.status(200).send({ lobby: lobby.startGame });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Server error");
+  }
+});
+
+router.post("/changeScreen", async (req, res) => {
+  const { id, changeNum } = req.body;
+  try {
+    pusher.trigger("Wrivia", "change_"+id+changeNum, {change: true});
+    res.status(200).send();
   } catch (error) {
     console.log(error);
     res.status(500).send("Server error");
